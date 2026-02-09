@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check:lock-sync": "node scripts_sync_lockfile.mjs",
+    "sync:lockfile": "node scripts_sync_lockfile.mjs --write"
   },
   "dependencies": {
     "next": "14.2.15",
