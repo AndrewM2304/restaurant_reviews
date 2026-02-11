@@ -1,35 +1,30 @@
-# Restaurant Reviews - Next.js Starter
+# Food Tracker (Next.js)
 
-This repository contains a minimal **Next.js full-stack app**:
+Stage 1 foundation for a local-first food tracker app with clear separation between:
 
-- `/` renders a simple **Hello World** page.
-- `/api/hello` returns JSON from the server in local dev.
+- `src/app`: routes + page composition
+- `src/features/*/usecases`: application logic
+- `src/core/repo/interfaces.ts`: repository interfaces
+- `src/features/shared/repo/local`: local persistence-backed repository implementations
 
-## Local development
+## Run locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open http://localhost:3000.
+## Current routes
 
-## Deploy to GitHub Pages on merge
+- `/visited`
+- `/wishlist`
+- `/search`
+- `/restaurants` (scaffold)
+- `/visits` (scaffold)
 
-This repo is configured to deploy automatically to GitHub Pages on every push/merge to `main`.
+## Architecture notes
 
-Expected site URL:
-
-- `https://andrewm2304.github.io/restaurant_reviews/`
-
-Setup (one-time in GitHub):
-
-1. Go to **Settings → Pages**.
-2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-3. Merge/push to `main`.
-4. The workflow at `.github/workflows/deploy-pages.yml` will build and deploy the static site.
-
-Notes:
-
-- The Next.js config applies the `/restaurant_reviews` base path during GitHub Actions builds so assets resolve correctly on GitHub Pages.
-- Because GitHub Pages is static hosting, only static routes/pages are deployed.
+- UI does not import persistence modules directly.
+- Hooks instantiate use-cases via `getRepos()` dependency injection.
+- `getRepos()` currently returns local repositories (`localStorage` backend).
+- Restaurant thumb rating is computed from visits in `src/core/domain/rating.ts`.
