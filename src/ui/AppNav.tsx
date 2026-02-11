@@ -3,12 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const tabs = [
-  { href: '/visited', label: 'Visited' },
-  { href: '/wishlist', label: 'Wishlist' },
-  { href: '/search', label: 'Search' },
-  { href: '/visits', label: 'Visits' },
-];
+const tabs = [{ href: '/', label: 'Home' }];
 
 export function AppNav() {
   const pathname = usePathname();
@@ -16,7 +11,7 @@ export function AppNav() {
   return (
     <nav style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
       {tabs.map((tab) => {
-        const active = pathname.startsWith(tab.href);
+        const active = pathname === tab.href || pathname.startsWith('/visits');
         return (
           <Link
             key={tab.href}

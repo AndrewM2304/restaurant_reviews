@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
+import VisitsPage from './visits/page';
 
 export default function HomePage() {
-  redirect('/visited');
+  return <VisitsPage />;
 }
