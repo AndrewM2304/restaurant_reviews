@@ -42,8 +42,8 @@ textarea {
 
 button {
   cursor: pointer;
-  border: 1px solid transparent;
-  background: #0f766e;
+  border: 1px solid #111111;
+  background: rgba(17, 17, 17, 0.9);
   color: #ffffff;
   border-radius: 10px;
   padding: 0.6rem 0.9rem;
@@ -53,7 +53,7 @@ button {
 }
 
 button:hover {
-  background: #0d655f;
+  background: rgba(17, 17, 17, 0.96);
 }
 
 button:active {
@@ -61,7 +61,7 @@ button:active {
 }
 
 button:focus-visible {
-  outline: 3px solid #99f6e4;
+  outline: 3px solid rgba(17, 17, 17, 0.45);
   outline-offset: 2px;
 }
 
