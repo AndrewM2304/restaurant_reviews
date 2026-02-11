@@ -197,6 +197,14 @@
 
 .scaleField input[type='range'] {
   accent-color: #111;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scaleField input[type='range']:focus,
+.scaleField input[type='range']:focus-visible,
+.scaleField input[type='range']:active {
+  outline: none;
+  box-shadow: none;
 }
 
 .scaleLabels {
