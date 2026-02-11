@@ -2,6 +2,7 @@
 
 import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { HandThumbDownIcon, HandThumbUpIcon } from '@heroicons/react/24/outline';
+import { HandThumbDownIcon as HandThumbDownSolidIcon, HandThumbUpIcon as HandThumbUpSolidIcon } from '@heroicons/react/24/solid';
 
 import type { Restaurant, ServiceType, Thumb } from '@/core/domain/types';
 import { useRestaurants } from '@/features/restaurants/hooks/useRestaurants';
@@ -257,7 +258,7 @@ export default function VisitsPage() {
                       onClick={() => setItemThumb('up')}
                       aria-label="Item thumbs up"
                     >
-                      <HandThumbUpIcon />
+                      {itemThumb === 'up' ? <HandThumbUpSolidIcon /> : <HandThumbUpIcon />}
                     </button>
                     <button
                       className={`${styles.thumbButton} ${styles.secondaryButton} ${itemThumb === 'down' ? styles.thumbActive : ''}`}
@@ -265,7 +266,7 @@ export default function VisitsPage() {
                       onClick={() => setItemThumb('down')}
                       aria-label="Item thumbs down"
                     >
-                      <HandThumbDownIcon />
+                      {itemThumb === 'down' ? <HandThumbDownSolidIcon /> : <HandThumbDownIcon />}
                     </button>
                     <button
                       type="button"
