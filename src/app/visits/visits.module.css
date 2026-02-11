@@ -22,7 +22,6 @@
   border-radius: 999px;
   background: transparent;
   color: #334155;
-  cursor: pointer;
 }
 
 .activeTab {
@@ -33,13 +32,12 @@
 
 .search {
   width: 100%;
-  max-width: 420px;
   margin-bottom: 1rem;
 }
 
 .cardGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: 1fr;
   gap: 0.9rem;
 }
 
@@ -66,8 +64,8 @@
 
 .fab {
   position: fixed;
-  right: 2rem;
-  bottom: 2rem;
+  right: 1rem;
+  bottom: 1rem;
   width: 56px;
   height: 56px;
   border: none;
@@ -76,7 +74,6 @@
   line-height: 0;
   color: white;
   background: linear-gradient(135deg, #0f766e, #14b8a6);
-  cursor: pointer;
   box-shadow: 0 10px 25px rgba(20, 184, 166, 0.35);
 }
 
@@ -85,17 +82,17 @@
   inset: 0;
   background: rgba(15, 23, 42, 0.45);
   display: grid;
-  place-items: center;
+  place-items: end center;
   z-index: 10;
-  padding: 1rem;
+  padding: 0;
 }
 
 .modal {
-  width: min(820px, 100%);
+  width: 100%;
   max-height: 92vh;
   overflow: auto;
   background: white;
-  border-radius: 18px;
+  border-radius: 18px 18px 0 0;
   padding: 1rem;
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.35);
 }
@@ -105,10 +102,64 @@
   gap: 0.8rem;
 }
 
-.thumbRow {
+.form input[type='date'] {
+  min-width: 0;
+}
+
+.serviceTypeGroup {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.serviceTypeGroup legend {
+  grid-column: 1 / -1;
+  color: #334155;
+  font-size: 0.95rem;
+  padding: 0;
+  margin-bottom: 0.1rem;
+}
+
+.radioOption {
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 0.55rem 0.65rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
+  font-weight: 500;
+}
+
+.radioOption input {
+  width: auto;
+  accent-color: #0f766e;
+}
+
+.radioOption:has(input:checked) {
+  border-color: #14b8a6;
+  background: #f0fdfa;
+  color: #0f766e;
+}
+
+.scaleField {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.scaleField label {
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+.scaleLabels {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.35rem;
+  color: #475569;
+  font-size: 0.85rem;
 }
 
 .thumbButton {
@@ -120,7 +171,11 @@
   display: grid;
   place-items: center;
   color: #334155;
-  cursor: pointer;
+  padding: 0;
+}
+
+.thumbButton:hover {
+  background: #f8fafc;
 }
 
 .thumbButton svg {
@@ -146,16 +201,28 @@
 
 .itemRow {
   display: grid;
-  grid-template-columns: 1fr auto auto auto;
+  grid-template-columns: 1fr auto auto;
   gap: 0.45rem;
+  align-items: center;
+}
+
+.itemRow > input {
+  min-width: 0;
 }
 
 .inlineButton {
-  border: none;
-  background: #0f172a;
-  color: white;
-  border-radius: 8px;
-  padding: 0.45rem 0.8rem;
+  grid-column: 1 / -1;
+}
+
+.itemThumbIcon {
+  display: inline-grid;
+  place-items: center;
+  color: #0f766e;
+}
+
+.itemThumbIcon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .list {
@@ -168,12 +235,16 @@
 
 .list li {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.6rem;
   align-items: center;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
   padding: 0.45rem 0.55rem;
+}
+
+.list li > span:first-child {
+  overflow-wrap: anywhere;
 }
 
 .formActions {
@@ -185,4 +256,41 @@
 .message {
   color: #0f766e;
   margin: 0;
+}
+
+@media (min-width: 700px) {
+  .cardGrid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .search {
+    max-width: 420px;
+  }
+
+  .fab {
+    right: 2rem;
+    bottom: 2rem;
+  }
+
+  .modalBackdrop {
+    place-items: center;
+    padding: 1rem;
+  }
+
+  .modal {
+    width: min(760px, 100%);
+    border-radius: 18px;
+  }
+
+  .itemRow {
+    grid-template-columns: 1fr auto auto auto;
+  }
+
+  .inlineButton {
+    grid-column: auto;
+  }
+
+  .list li {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
 }

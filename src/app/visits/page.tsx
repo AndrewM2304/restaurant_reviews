@@ -15,34 +15,34 @@ interface DraftItem {
 
 interface DraftPhoto {
   storagePath: string;
-  caption?: string;
 }
 
 type VisitThumb = Exclude<Thumb, 'neutral'>;
 
 type TabKey = 'locations' | 'activity';
 
-const allServiceTypes: ServiceType[] = ['eat_in', 'takeaway', 'delivery'];
+const dineServiceTypes: ServiceType[] = ['eat_in', 'takeaway'];
+const overallScale: Thumb[] = ['down', 'neutral', 'up'];
 
-function ThumbUpIcon() {
+function HandThumbUpIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M14 9V5.414c0-.89 1.077-1.337 1.707-.707l3.586 3.586a1 1 0 0 1 .293.707V18a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h7Z"
+        d="M2.25 10.5h4.5v10.5h-4.5V10.5Zm4.5 0 3.136-7.024A1.875 1.875 0 0 1 11.598 2.25h.352c1.036 0 1.875.84 1.875 1.875v2.25h5.237a2.25 2.25 0 0 1 2.208 2.684l-1.2 6A2.25 2.25 0 0 1 17.864 17.25H6.75V10.5Z"
       />
     </svg>
   );
 }
 
-function ThumbDownIcon() {
+function HandThumbDownIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M10 15v3.586c0 .89-1.077 1.337-1.707.707l-3.586-3.586A1 1 0 0 1 4.414 15V6a2 2 0 0 1 2-2h10.172a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H10Z"
+        d="M21.75 13.5h-4.5V3h4.5v10.5Zm-4.5 0-3.136 7.024a1.875 1.875 0 0 1-1.712 1.226h-.352a1.875 1.875 0 0 1-1.875-1.875v-2.25H4.938a2.25 2.25 0 0 1-2.208-2.684l1.2-6A2.25 2.25 0 0 1 6.136 6.75H17.25v6.75Z"
       />
     </svg>
   );
@@ -61,7 +61,7 @@ export default function VisitsPage() {
   const [locationName, setLocationName] = useState('');
   const [visitDate, setVisitDate] = useState(new Date().toISOString().slice(0, 10));
   const [serviceType, setServiceType] = useState<ServiceType>('eat_in');
-  const [overallThumb, setOverallThumb] = useState<VisitThumb>('up');
+  const [overallThumb, setOverallThumb] = useState<Thumb>('neutral');
   const [notes, setNotes] = useState('');
 
   const [itemName, setItemName] = useState('');
@@ -69,7 +69,6 @@ export default function VisitsPage() {
   const [items, setItems] = useState<DraftItem[]>([]);
 
   const [photos, setPhotos] = useState<DraftPhoto[]>([]);
-  const [photoCaption, setPhotoCaption] = useState('');
 
   const [message, setMessage] = useState('');
 
@@ -103,20 +102,18 @@ export default function VisitsPage() {
     setLocationName('');
     setVisitDate(new Date().toISOString().slice(0, 10));
     setServiceType('eat_in');
-    setOverallThumb('up');
+    setOverallThumb('neutral');
     setNotes('');
     setItems([]);
     setItemName('');
     setItemThumb('up');
     setPhotos([]);
-    setPhotoCaption('');
   };
 
   const addPhotoFromBrowser = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (!selectedFile) return;
-    setPhotos((current) => [...current, { storagePath: selectedFile.name, caption: photoCaption || undefined }]);
-    setPhotoCaption('');
+    setPhotos((current) => [...current, { storagePath: selectedFile.name }]);
     event.target.value = '';
   };
 
@@ -222,32 +219,38 @@ export default function VisitsPage() {
 
               <input type="date" value={visitDate} onChange={(event) => setVisitDate(event.target.value)} required />
 
-              <select value={serviceType} onChange={(event) => setServiceType(event.target.value as ServiceType)}>
-                {allServiceTypes.map((value) => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
+              <fieldset className={styles.serviceTypeGroup}>
+                <legend>Service</legend>
+                {dineServiceTypes.map((value) => (
+                  <label key={value} className={styles.radioOption}>
+                    <input
+                      type="radio"
+                      name="serviceType"
+                      value={value}
+                      checked={serviceType === value}
+                      onChange={(event) => setServiceType(event.target.value as ServiceType)}
+                    />
+                    <span>{value === 'eat_in' ? 'Eat in' : 'Take away'}</span>
+                  </label>
                 ))}
-              </select>
+              </fieldset>
 
-              <div className={styles.thumbRow}>
-                <span>Overall</span>
-                <button
-                  className={`${styles.thumbButton} ${overallThumb === 'up' ? styles.thumbActive : ''}`}
-                  type="button"
-                  onClick={() => setOverallThumb('up')}
-                  aria-label="Thumbs up"
-                >
-                  <ThumbUpIcon />
-                </button>
-                <button
-                  className={`${styles.thumbButton} ${overallThumb === 'down' ? styles.thumbActive : ''}`}
-                  type="button"
-                  onClick={() => setOverallThumb('down')}
-                  aria-label="Thumbs down"
-                >
-                  <ThumbDownIcon />
-                </button>
+              <div className={styles.scaleField}>
+                <label htmlFor="overall-scale">Overall</label>
+                <input
+                  id="overall-scale"
+                  type="range"
+                  min={0}
+                  max={2}
+                  step={1}
+                  value={overallScale.indexOf(overallThumb)}
+                  onChange={(event) => setOverallThumb(overallScale[Number(event.target.value)] ?? 'neutral')}
+                />
+                <div className={styles.scaleLabels}>
+                  <span>Terrible</span>
+                  <span>Neutral</span>
+                  <span>Great</span>
+                </div>
               </div>
 
               <textarea placeholder="Visit notes (optional)" value={notes} onChange={(event) => setNotes(event.target.value)} />
@@ -262,7 +265,7 @@ export default function VisitsPage() {
                     onClick={() => setItemThumb('up')}
                     aria-label="Item thumbs up"
                   >
-                    <ThumbUpIcon />
+                    <HandThumbUpIcon />
                   </button>
                   <button
                     className={`${styles.thumbButton} ${itemThumb === 'down' ? styles.thumbActive : ''}`}
@@ -270,7 +273,7 @@ export default function VisitsPage() {
                     onClick={() => setItemThumb('down')}
                     aria-label="Item thumbs down"
                   >
-                    <ThumbDownIcon />
+                    <HandThumbDownIcon />
                   </button>
                   <button
                     type="button"
@@ -290,7 +293,7 @@ export default function VisitsPage() {
                   {items.map((item, index) => (
                     <li key={`${item.name}-${index}`}>
                       <span>{item.name}</span>
-                      <span>{item.thumb === 'up' ? '👍' : '👎'}</span>
+                      <span className={styles.itemThumbIcon}>{item.thumb === 'up' ? <HandThumbUpIcon /> : <HandThumbDownIcon />}</span>
                       <button type="button" onClick={() => setItems((current) => current.filter((_, i) => i !== index))}>
                         Remove
                       </button>
@@ -308,18 +311,12 @@ export default function VisitsPage() {
                     onChange={addPhotoFromBrowser}
                     aria-label="Choose photo from your device"
                   />
-                  <input
-                    placeholder="Caption (optional)"
-                    value={photoCaption}
-                    onChange={(event) => setPhotoCaption(event.target.value)}
-                  />
                 </div>
 
                 <ul className={styles.list}>
                   {photos.map((photo, index) => (
                     <li key={`${photo.storagePath}-${index}`}>
                       <span>{photo.storagePath}</span>
-                      <span>{photo.caption ?? 'No caption'}</span>
                       <button type="button" onClick={() => setPhotos((current) => current.filter((_, i) => i !== index))}>
                         Remove
                       </button>
