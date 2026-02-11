@@ -2,7 +2,6 @@
 
 import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { HandThumbDownIcon, HandThumbUpIcon } from '@heroicons/react/24/outline';
-import { HandThumbDownIcon as HandThumbDownSolidIcon, HandThumbUpIcon as HandThumbUpSolidIcon } from '@heroicons/react/24/solid';
 
 import type { Restaurant, ServiceType, Thumb } from '@/core/domain/types';
 import { useRestaurants } from '@/features/restaurants/hooks/useRestaurants';
@@ -21,7 +20,7 @@ interface DraftPhoto {
 
 type VisitThumb = Exclude<Thumb, 'neutral'>;
 
-type TabKey = 'locations' | 'activity';
+type TabKey = 'locations' | 'wishlist';
 
 const dineServiceTypes: ServiceType[] = ['eat_in', 'takeaway'];
 const overallSegments = ['Terrible', 'Bad', 'Fine', 'Good', 'Great'] as const;
@@ -32,7 +31,7 @@ export default function VisitsPage() {
 
   const [tab, setTab] = useState<TabKey>('locations');
   const [savedLocations, setSavedLocations] = useState<Restaurant[]>([]);
-  const [activity, setActivity] = useState<Awaited<ReturnType<typeof restaurantsUsecases.listVisited>>>([]);
+  const [wishlist, setWishlist] = useState<Restaurant[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showModal, setShowModal] = useState(false);
 
@@ -77,7 +76,7 @@ export default function VisitsPage() {
     }, []);
 
     setSavedLocations(merged.sort((a, b) => a.name.localeCompare(b.name)));
-    setActivity(visited);
+    setWishlist(wishlist.sort((a, b) => a.name.localeCompare(b.name)));
   }, [restaurantsUsecases]);
 
   useEffect(() => {
@@ -88,6 +87,11 @@ export default function VisitsPage() {
     () =>
       savedLocations.filter((restaurant) => restaurant.name.toLowerCase().includes(searchQuery.toLowerCase().trim())),
     [savedLocations, searchQuery],
+  );
+
+  const filteredWishlist = useMemo(
+    () => wishlist.filter((restaurant) => restaurant.name.toLowerCase().includes(searchQuery.toLowerCase().trim())),
+    [searchQuery, wishlist],
   );
 
   const resetForm = () => {
@@ -145,45 +149,43 @@ export default function VisitsPage() {
 
   return (
     <section className={styles.page}>
-      <h2 className="app-heading-2">Visits</h2>
+      <h2 className="app-heading-2">Home</h2>
 
       <div className={styles.tabs}>
         <button className={`${styles.tab} ${tab === 'locations' ? styles.activeTab : ''}`} onClick={() => setTab('locations')}>
           Locations
         </button>
-        <button className={`${styles.tab} ${tab === 'activity' ? styles.activeTab : ''}`} onClick={() => setTab('activity')}>
-          Activity
+        <button className={`${styles.tab} ${tab === 'wishlist' ? styles.activeTab : ''}`} onClick={() => setTab('wishlist')}>
+          Wish list
         </button>
       </div>
 
+      <input
+        className={styles.search}
+        placeholder={tab === 'locations' ? 'Search locations' : 'Search wish list'}
+        value={searchQuery}
+        onChange={(event) => setSearchQuery(event.target.value)}
+      />
+
       {tab === 'locations' ? (
-        <>
-          <input
-            className={styles.search}
-            placeholder="Search saved locations"
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.target.value)}
-          />
-          <div className={styles.cardGrid}>
-            {filteredLocations.map((location) => (
-              <article key={location.id} className={styles.locationCard}>
-                <h3>{location.name}</h3>
-                <p className={styles.meta}>{location.status === 'active' ? 'Visited location' : 'Wishlist location'}</p>
-              </article>
-            ))}
-            {!filteredLocations.length ? <p className={styles.empty}>No saved locations yet.</p> : null}
-          </div>
-        </>
-      ) : (
         <div className={styles.cardGrid}>
-          {activity.map((restaurant) => (
-            <article key={restaurant.id} className={styles.locationCard}>
-              <h3>{restaurant.name}</h3>
-              <p className={styles.meta}>Visits: {restaurant.visitCount}</p>
-              <p className={styles.meta}>Latest: {restaurant.lastVisited ?? '—'}</p>
+          {filteredLocations.map((location) => (
+            <article key={location.id} className={styles.locationCard}>
+              <h3>{location.name}</h3>
+              <p className={styles.meta}>{location.status === 'active' ? 'Visited location' : 'Wishlist location'}</p>
             </article>
           ))}
-          {!activity.length ? <p className={styles.empty}>No activity yet.</p> : null}
+          {!filteredLocations.length ? <p className={styles.empty}>No saved locations yet.</p> : null}
+        </div>
+      ) : (
+        <div className={styles.cardGrid}>
+          {filteredWishlist.map((restaurant) => (
+            <article key={restaurant.id} className={styles.locationCard}>
+              <h3>{restaurant.name}</h3>
+              <p className={styles.meta}>Wish list location</p>
+            </article>
+          ))}
+          {!filteredWishlist.length ? <p className={styles.empty}>No wish list locations yet.</p> : null}
         </div>
       )}
 
@@ -258,15 +260,17 @@ export default function VisitsPage() {
                       onClick={() => setItemThumb('up')}
                       aria-label="Item thumbs up"
                     >
-                      {itemThumb === 'up' ? <HandThumbUpSolidIcon /> : <HandThumbUpIcon />}
+                      <HandThumbUpIcon />
                     </button>
                     <button
-                      className={`${styles.thumbButton} ${styles.secondaryButton} ${itemThumb === 'down' ? styles.thumbActive : ''}`}
+                      className={`${styles.thumbButton} ${styles.secondaryButton} ${itemThumb === 'down' ? styles.thumbActive : ''} ${
+                        itemThumb === 'down' ? styles.thumbDownActive : ''
+                      }`}
                       type="button"
                       onClick={() => setItemThumb('down')}
                       aria-label="Item thumbs down"
                     >
-                      {itemThumb === 'down' ? <HandThumbDownSolidIcon /> : <HandThumbDownIcon />}
+                      <HandThumbDownIcon />
                     </button>
                     <button
                       type="button"
