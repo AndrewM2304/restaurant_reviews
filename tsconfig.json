@@ -28,6 +28,9 @@
       ],
       "@heroicons/react/24/outline": [
         "./src/vendor/heroicons/react/24/outline"
+      ],
+      "@heroicons/react/24/solid": [
+        "./src/vendor/heroicons/react/24/solid"
       ]
     }
   },
