@@ -87,8 +87,9 @@
 .modal {
   width: min(760px, 100%);
   max-height: min(92vh, 860px);
-  overflow: auto;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background: #fff;
   border-radius: 18px;
   padding: 1rem;
@@ -96,8 +97,19 @@
 }
 
 .form {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.formBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
   display: grid;
   gap: 0.8rem;
+  padding: 0 0.25rem 0.5rem 0;
 }
 
 .form input,
@@ -108,29 +120,15 @@
   box-sizing: border-box;
 }
 
-.dateInputWrap {
-  position: relative;
+.form input:not([type='radio']):not([type='range']):not([type='file']),
+.form textarea,
+.form select {
+  min-height: 44px;
 }
 
 .form input[type='date'] {
-  min-width: 0;
-  padding-right: 2.3rem;
-}
-
-.dateIcon {
-  position: absolute;
-  right: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  color: #111;
-  pointer-events: none;
-}
-
-.dateIcon svg {
-  width: 100%;
-  height: 100%;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .serviceTypeGroup {
@@ -286,6 +284,15 @@
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
+}
+
+.formFooter {
+  position: sticky;
+  bottom: 0;
+  margin: 0 -1rem -1rem;
+  padding: 0.75rem 1rem 1rem;
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
 }
 
 .primaryButton,
