@@ -12,8 +12,8 @@ export interface RatingThresholds {
 }
 
 const DEFAULT_THRESHOLDS: RatingThresholds = {
-  upMin: 0.25,
-  downMax: -0.25,
+  upMin: 0.33,
+  downMax: -0.33,
 };
 
 export function computeRestaurantThumb(
@@ -28,11 +28,11 @@ export function computeRestaurantThumb(
     visits.reduce((sum, visit) => sum + SCORE_BY_THUMB[visit.overallThumb], 0) /
     visits.length;
 
-  if (average >= thresholds.upMin) {
+  if (average > thresholds.upMin) {
     return 'up';
   }
 
-  if (average <= thresholds.downMax) {
+  if (average < thresholds.downMax) {
     return 'down';
   }
 

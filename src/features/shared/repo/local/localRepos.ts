@@ -167,7 +167,11 @@ class LocalSearchRepo implements SearchRepo {
     const restaurantMap = new Map(restaurants.map((restaurant) => [restaurant.id, restaurant]));
 
     return db.visitItems
-      .filter((item) => item.name.toLowerCase().includes(q))
+      .filter((item) =>
+        q.length === 0 ||
+        item.name.toLowerCase().includes(q) ||
+        item.notes?.toLowerCase().includes(q)
+      )
       .map((item) => {
         const visit = db.visits.find((candidate) => candidate.id === item.visitId);
         if (!visit) return null;

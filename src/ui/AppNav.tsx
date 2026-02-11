@@ -7,6 +7,7 @@ const tabs = [
   { href: '/visited', label: 'Visited' },
   { href: '/wishlist', label: 'Wishlist' },
   { href: '/search', label: 'Search' },
+  { href: '/visits', label: 'Visits' },
 ];
 
 export function AppNav() {
