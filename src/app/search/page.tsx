@@ -53,7 +53,7 @@ export default function SearchPage() {
 
   return (
     <section>
-      <h2>Search</h2>
+      <h2 className="app-heading-2">Search</h2>
       <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
         <button type="button" onClick={() => setTab('restaurants')} style={{ fontWeight: tab === 'restaurants' ? 700 : 400 }}>
           Restaurants
