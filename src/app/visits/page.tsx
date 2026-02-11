@@ -22,7 +22,7 @@ type VisitThumb = Exclude<Thumb, 'neutral'>;
 type TabKey = 'locations' | 'activity';
 
 const dineServiceTypes: ServiceType[] = ['eat_in', 'takeaway'];
-const overallScale: Thumb[] = ['down', 'neutral', 'up'];
+const overallSegments = ['Terrible', 'Bad', 'Fine', 'Good', 'Great'] as const;
 
 function HandThumbUpIcon() {
   return (
@@ -61,7 +61,7 @@ export default function VisitsPage() {
   const [locationName, setLocationName] = useState('');
   const [visitDate, setVisitDate] = useState(new Date().toISOString().slice(0, 10));
   const [serviceType, setServiceType] = useState<ServiceType>('eat_in');
-  const [overallThumb, setOverallThumb] = useState<Thumb>('neutral');
+  const [overallRating, setOverallRating] = useState(2);
   const [notes, setNotes] = useState('');
 
   const [itemName, setItemName] = useState('');
@@ -102,7 +102,7 @@ export default function VisitsPage() {
     setLocationName('');
     setVisitDate(new Date().toISOString().slice(0, 10));
     setServiceType('eat_in');
-    setOverallThumb('neutral');
+    setOverallRating(2);
     setNotes('');
     setItems([]);
     setItemName('');
@@ -139,7 +139,7 @@ export default function VisitsPage() {
       restaurantId: restaurant.id,
       visitDate,
       serviceType,
-      overallThumb,
+      overallThumb: overallRating <= 1 ? 'down' : overallRating >= 3 ? 'up' : 'neutral',
       notes: notes || undefined,
       items,
       photos,
@@ -241,15 +241,15 @@ export default function VisitsPage() {
                   id="overall-scale"
                   type="range"
                   min={0}
-                  max={2}
+                  max={4}
                   step={1}
-                  value={overallScale.indexOf(overallThumb)}
-                  onChange={(event) => setOverallThumb(overallScale[Number(event.target.value)] ?? 'neutral')}
+                  value={overallRating}
+                  onChange={(event) => setOverallRating(Number(event.target.value))}
                 />
                 <div className={styles.scaleLabels}>
-                  <span>Terrible</span>
-                  <span>Neutral</span>
-                  <span>Great</span>
+                  {overallSegments.map((segment) => (
+                    <span key={segment}>{segment}</span>
+                  ))}
                 </div>
               </div>
 
@@ -260,7 +260,7 @@ export default function VisitsPage() {
                 <div className={styles.itemRow}>
                   <input placeholder="Item" value={itemName} onChange={(event) => setItemName(event.target.value)} />
                   <button
-                    className={`${styles.thumbButton} ${itemThumb === 'up' ? styles.thumbActive : ''}`}
+                    className={`${styles.thumbButton} ${styles.secondaryButton} ${itemThumb === 'up' ? styles.thumbActive : ''}`}
                     type="button"
                     onClick={() => setItemThumb('up')}
                     aria-label="Item thumbs up"
@@ -268,7 +268,7 @@ export default function VisitsPage() {
                     <HandThumbUpIcon />
                   </button>
                   <button
-                    className={`${styles.thumbButton} ${itemThumb === 'down' ? styles.thumbActive : ''}`}
+                    className={`${styles.thumbButton} ${styles.secondaryButton} ${itemThumb === 'down' ? styles.thumbActive : ''}`}
                     type="button"
                     onClick={() => setItemThumb('down')}
                     aria-label="Item thumbs down"
@@ -277,7 +277,7 @@ export default function VisitsPage() {
                   </button>
                   <button
                     type="button"
-                    className={styles.inlineButton}
+                    className={`${styles.inlineButton} ${styles.primaryButton}`}
                     onClick={() => {
                       if (!itemName.trim()) return;
                       setItems((current) => [...current, { name: itemName.trim(), thumb: itemThumb }]);
@@ -294,7 +294,11 @@ export default function VisitsPage() {
                     <li key={`${item.name}-${index}`}>
                       <span>{item.name}</span>
                       <span className={styles.itemThumbIcon}>{item.thumb === 'up' ? <HandThumbUpIcon /> : <HandThumbDownIcon />}</span>
-                      <button type="button" onClick={() => setItems((current) => current.filter((_, i) => i !== index))}>
+                      <button
+                        type="button"
+                        className={styles.secondaryButton}
+                        onClick={() => setItems((current) => current.filter((_, i) => i !== index))}
+                      >
                         Remove
                       </button>
                     </li>
@@ -317,7 +321,11 @@ export default function VisitsPage() {
                   {photos.map((photo, index) => (
                     <li key={`${photo.storagePath}-${index}`}>
                       <span>{photo.storagePath}</span>
-                      <button type="button" onClick={() => setPhotos((current) => current.filter((_, i) => i !== index))}>
+                      <button
+                        type="button"
+                        className={styles.secondaryButton}
+                        onClick={() => setPhotos((current) => current.filter((_, i) => i !== index))}
+                      >
                         Remove
                       </button>
                     </li>
@@ -326,10 +334,12 @@ export default function VisitsPage() {
               </div>
 
               <div className={styles.formActions}>
-                <button type="button" onClick={() => setShowModal(false)}>
+                <button type="button" className={styles.secondaryButton} onClick={() => setShowModal(false)}>
                   Cancel
                 </button>
-                <button type="submit">Save visit</button>
+                <button type="submit" className={styles.primaryButton}>
+                  Save visit
+                </button>
               </div>
               {message ? <p className={styles.message}>{message}</p> : null}
             </form>

@@ -10,7 +10,7 @@
 .tabs {
   display: inline-flex;
   gap: 0.5rem;
-  background: #e2e8f0;
+  background: #e5e5e5;
   border-radius: 999px;
   padding: 0.3rem;
   margin-bottom: 1rem;
@@ -21,13 +21,13 @@
   padding: 0.45rem 0.9rem;
   border-radius: 999px;
   background: transparent;
-  color: #334155;
+  color: #3a3a3a;
 }
 
 .activeTab {
-  background: white;
-  color: #0f172a;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+  background: #fff;
+  color: #111;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 .search {
@@ -42,11 +42,11 @@
 }
 
 .locationCard {
-  background: white;
-  border: 1px solid #e2e8f0;
+  background: #fff;
+  border: 1px solid #d4d4d4;
   border-radius: 14px;
   padding: 0.9rem;
-  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
 .locationCard h3 {
@@ -55,11 +55,11 @@
 
 .meta {
   margin: 0.15rem 0;
-  color: #475569;
+  color: #4a4a4a;
 }
 
 .empty {
-  color: #64748b;
+  color: #6a6a6a;
 }
 
 .fab {
@@ -68,19 +68,20 @@
   bottom: 1rem;
   width: 56px;
   height: 56px;
-  border: none;
+  border: 1px solid #111;
   border-radius: 999px;
   font-size: 1.9rem;
   line-height: 0;
-  color: white;
-  background: linear-gradient(135deg, #0f766e, #14b8a6);
-  box-shadow: 0 10px 25px rgba(20, 184, 166, 0.35);
+  color: #fff;
+  background: #111;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .modalBackdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.45);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
   display: grid;
   place-items: end center;
   z-index: 10;
@@ -91,15 +92,23 @@
   width: 100%;
   max-height: 92vh;
   overflow: auto;
-  background: white;
+  background: #fff;
   border-radius: 18px 18px 0 0;
   padding: 1rem;
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.35);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .form {
   display: grid;
   gap: 0.8rem;
+}
+
+.form input,
+.form textarea,
+.form select {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .form input[type='date'] {
@@ -117,31 +126,32 @@
 
 .serviceTypeGroup legend {
   grid-column: 1 / -1;
-  color: #334155;
+  color: #333;
   font-size: 0.95rem;
   padding: 0;
   margin-bottom: 0.1rem;
 }
 
 .radioOption {
-  border: 1px solid #cbd5e1;
+  border: 1px solid #bdbdbd;
   border-radius: 12px;
   padding: 0.55rem 0.65rem;
   display: flex;
   align-items: center;
   gap: 0.45rem;
   font-weight: 500;
+  color: #2b2b2b;
 }
 
 .radioOption input {
   width: auto;
-  accent-color: #0f766e;
+  accent-color: #111;
 }
 
 .radioOption:has(input:checked) {
-  border-color: #14b8a6;
-  background: #f0fdfa;
-  color: #0f766e;
+  border-color: #111;
+  background: #efefef;
+  color: #111;
 }
 
 .scaleField {
@@ -150,32 +160,36 @@
 }
 
 .scaleField label {
-  color: #334155;
+  color: #333;
   font-size: 0.95rem;
 }
 
 .scaleLabels {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.35rem;
-  color: #475569;
-  font-size: 0.85rem;
+  color: #4a4a4a;
+  font-size: 0.8rem;
+}
+
+.scaleLabels span {
+  text-align: center;
 }
 
 .thumbButton {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  border: 1px solid #cbd5e1;
-  background: white;
+  border: 1px solid #bdbdbd;
+  background: #fff;
   display: grid;
   place-items: center;
-  color: #334155;
+  color: #333;
   padding: 0;
 }
 
 .thumbButton:hover {
-  background: #f8fafc;
+  background: #f5f5f5;
 }
 
 .thumbButton svg {
@@ -184,15 +198,9 @@
 }
 
 .thumbActive {
-  border-color: #14b8a6;
-  color: #0f766e;
-  background: #f0fdfa;
-}
-
-.itemEditor {
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 0.8rem;
+  border-color: #111;
+  color: #111;
+  background: #ebebeb;
 }
 
 .itemEditor h4 {
@@ -217,7 +225,7 @@
 .itemThumbIcon {
   display: inline-grid;
   place-items: center;
-  color: #0f766e;
+  color: #111;
 }
 
 .itemThumbIcon svg {
@@ -238,7 +246,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.6rem;
   align-items: center;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #d4d4d4;
   border-radius: 10px;
   padding: 0.45rem 0.55rem;
 }
@@ -253,8 +261,27 @@
   gap: 0.5rem;
 }
 
+.primaryButton,
+.secondaryButton {
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+  font-weight: 600;
+}
+
+.primaryButton {
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+}
+
+.secondaryButton {
+  border: 1px solid #111;
+  background: transparent;
+  color: #111;
+}
+
 .message {
-  color: #0f766e;
+  color: #111;
   margin: 0;
 }
 
