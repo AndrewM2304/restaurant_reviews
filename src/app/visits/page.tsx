@@ -24,7 +24,15 @@ type TabKey = 'locations' | 'activity';
 const dineServiceTypes: ServiceType[] = ['eat_in', 'takeaway'];
 const overallSegments = ['Terrible', 'Bad', 'Fine', 'Good', 'Great'] as const;
 
-function HandThumbUpIcon() {
+function HandThumbUpIcon({ selected }: { selected?: boolean }) {
+  if (selected) {
+    return (
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M7.5 21.75H3.375a1.125 1.125 0 0 1-1.125-1.125V10.5a1.125 1.125 0 0 1 1.125-1.125H7.5v12.375Zm1.5-12.375 3.45-5.92a1.875 1.875 0 0 1 3.413.945v4.975h4.022a2.25 2.25 0 0 1 2.228 2.561l-.795 6.363a2.25 2.25 0 0 1-2.234 1.951H9V9.375Z" />
+      </svg>
+    );
+  }
+
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <path
@@ -36,7 +44,15 @@ function HandThumbUpIcon() {
   );
 }
 
-function HandThumbDownIcon() {
+function HandThumbDownIcon({ selected }: { selected?: boolean }) {
+  if (selected) {
+    return (
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M16.5 2.25h4.125a1.125 1.125 0 0 1 1.125 1.125V13.5a1.125 1.125 0 0 1-1.125 1.125H16.5V2.25Zm-1.5 12.375-3.45 5.92a1.875 1.875 0 0 1-3.413-.945v-4.975H4.115a2.25 2.25 0 0 1-2.228-2.561l.795-6.363A2.25 2.25 0 0 1 4.916 3.75H15v10.875Z" />
+      </svg>
+    );
+  }
+
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <path
@@ -266,7 +282,7 @@ export default function VisitsPage() {
                       onClick={() => setItemThumb('up')}
                       aria-label="Item thumbs up"
                     >
-                      <HandThumbUpIcon />
+                      <HandThumbUpIcon selected={itemThumb === 'up'} />
                     </button>
                     <button
                       className={`${styles.thumbButton} ${styles.secondaryButton} ${itemThumb === 'down' ? styles.thumbActive : ''}`}
@@ -274,7 +290,7 @@ export default function VisitsPage() {
                       onClick={() => setItemThumb('down')}
                       aria-label="Item thumbs down"
                     >
-                      <HandThumbDownIcon />
+                      <HandThumbDownIcon selected={itemThumb === 'down'} />
                     </button>
                     <button
                       type="button"
