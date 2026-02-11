@@ -63,7 +63,7 @@ export default function VisitedPage() {
 
   return (
     <section>
-      <h2>Visited</h2>
+      <h2 className="app-heading-2">Visited</h2>
       <form
         onSubmit={(event: FormEvent) => {
           event.preventDefault();

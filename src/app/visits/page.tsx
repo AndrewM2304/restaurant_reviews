@@ -24,6 +24,19 @@ type TabKey = 'locations' | 'activity';
 const dineServiceTypes: ServiceType[] = ['eat_in', 'takeaway'];
 const overallSegments = ['Terrible', 'Bad', 'Fine', 'Good', 'Great'] as const;
 
+function CalendarIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 2.75v3.5M15.75 2.75v3.5" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3.75 8.5h16.5M5.25 5.75h13.5a1.5 1.5 0 0 1 1.5 1.5v11a2 2 0 0 1-2 2H5.75a2 2 0 0 1-2-2v-11a1.5 1.5 0 0 1 1.5-1.5Z"
+      />
+    </svg>
+  );
+}
+
 function HandThumbUpIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
@@ -153,7 +166,7 @@ export default function VisitsPage() {
 
   return (
     <section className={styles.page}>
-      <h2 className={styles.heading}>Visits</h2>
+      <h2 className="app-heading-2">Visits</h2>
 
       <div className={styles.tabs}>
         <button className={`${styles.tab} ${tab === 'locations' ? styles.activeTab : ''}`} onClick={() => setTab('locations')}>
@@ -202,7 +215,7 @@ export default function VisitsPage() {
       {showModal ? (
         <div className={styles.modalBackdrop} onClick={() => setShowModal(false)}>
           <div className={styles.modal} onClick={(event) => event.stopPropagation()}>
-            <h3>Add visit</h3>
+            <h3 className="app-heading-3">Add visit</h3>
             <form className={styles.form} onSubmit={submit}>
               <input
                 list="saved-locations"
@@ -217,7 +230,12 @@ export default function VisitsPage() {
                 ))}
               </datalist>
 
-              <input type="date" value={visitDate} onChange={(event) => setVisitDate(event.target.value)} required />
+              <div className={styles.dateInputWrap}>
+                <input type="date" value={visitDate} onChange={(event) => setVisitDate(event.target.value)} required />
+                <span className={styles.dateIcon}>
+                  <CalendarIcon />
+                </span>
+              </div>
 
               <fieldset className={styles.serviceTypeGroup}>
                 <legend>Service</legend>
@@ -236,7 +254,7 @@ export default function VisitsPage() {
               </fieldset>
 
               <div className={styles.scaleField}>
-                <label htmlFor="overall-scale">Overall</label>
+                <label htmlFor="overall-scale">Rating</label>
                 <input
                   id="overall-scale"
                   type="range"
@@ -256,7 +274,7 @@ export default function VisitsPage() {
               <textarea placeholder="Visit notes (optional)" value={notes} onChange={(event) => setNotes(event.target.value)} />
 
               <div className={styles.itemEditor}>
-                <h4>Items</h4>
+                <h4 className="app-heading-4">Items</h4>
                 <div className={styles.itemRow}>
                   <input placeholder="Item" value={itemName} onChange={(event) => setItemName(event.target.value)} />
                   <button
@@ -307,7 +325,7 @@ export default function VisitsPage() {
               </div>
 
               <div className={styles.itemEditor}>
-                <h4>Photos</h4>
+                <h4 className="app-heading-4">Photos</h4>
                 <div className={styles.itemRow}>
                   <input
                     type="file"

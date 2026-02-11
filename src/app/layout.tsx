@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main>
-          <h1>Food Tracker</h1>
+          <h1 className="app-heading-1">Food Tracker</h1>
           <AppNav />
           {children}
         </main>

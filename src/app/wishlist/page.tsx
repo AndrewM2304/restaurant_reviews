@@ -60,7 +60,7 @@ export default function WishlistPage() {
 
   return (
     <section>
-      <h2>Wishlist</h2>
+      <h2 className="app-heading-2">Wishlist</h2>
       <form onSubmit={submit} style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
         <input placeholder="Restaurant name" value={name} onChange={(event) => setName(event.target.value)} />
         <input
