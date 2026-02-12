@@ -1,7 +1,7 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { HandThumbDownIcon, HandThumbUpIcon } from '@heroicons/react/24/outline';
+import { SmileyIcon, SmileySadIcon } from '@/vendor/phosphor/react';
 
 import type { Restaurant, ServiceType, Thumb } from '@/core/domain/types';
 import { useRestaurants } from '@/features/restaurants/hooks/useRestaurants';
@@ -267,7 +267,7 @@ export default function VisitsPage() {
                       onClick={() => setItemThumb('up')}
                       aria-label="Item thumbs up"
                     >
-                      <HandThumbUpIcon />
+                      <SmileyIcon weight={itemThumb === 'up' ? 'duotone' : 'light'} />
                     </button>
                     <button
                       className={`${styles.thumbButton} ${styles.secondaryButton} ${itemThumb === 'down' ? styles.thumbActive : ''} ${
@@ -277,7 +277,7 @@ export default function VisitsPage() {
                       onClick={() => setItemThumb('down')}
                       aria-label="Item thumbs down"
                     >
-                      <HandThumbDownIcon />
+                      <SmileySadIcon weight={itemThumb === 'down' ? 'duotone' : 'light'} />
                     </button>
                     <button
                       type="button"
@@ -297,7 +297,7 @@ export default function VisitsPage() {
                     {items.map((item, index) => (
                       <li key={`${item.name}-${index}`}>
                         <span>{item.name}</span>
-                        <span className={styles.itemThumbIcon}>{item.thumb === 'up' ? <HandThumbUpIcon /> : <HandThumbDownIcon />}</span>
+                        <span className={styles.itemThumbIcon}>{item.thumb === 'up' ? <SmileyIcon weight="duotone" /> : <SmileySadIcon weight="duotone" />}</span>
                         <button
                           type="button"
                           className={styles.secondaryButton}
