@@ -149,13 +149,20 @@ export default function VisitsPage() {
 
   return (
     <section className={styles.page}>
-      <h2 className="app-heading-2">Home</h2>
-
       <div className={styles.tabs}>
-        <button className={`${styles.tab} ${tab === 'locations' ? styles.activeTab : ''}`} onClick={() => setTab('locations')}>
+        <span className={`${styles.tabThumb} ${tab === 'wishlist' ? styles.thumbRight : ''}`} aria-hidden="true" />
+        <button
+          className={`${styles.tab} ${tab === 'locations' ? styles.activeTab : ''}`}
+          onClick={() => setTab('locations')}
+          type="button"
+        >
           Locations
         </button>
-        <button className={`${styles.tab} ${tab === 'wishlist' ? styles.activeTab : ''}`} onClick={() => setTab('wishlist')}>
+        <button
+          className={`${styles.tab} ${tab === 'wishlist' ? styles.activeTab : ''}`}
+          onClick={() => setTab('wishlist')}
+          type="button"
+        >
           Wish list
         </button>
       </div>

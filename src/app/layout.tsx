@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 
-import { AppNav } from '@/ui/AppNav';
-
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -17,11 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main>
-          <h1 className="app-heading-1">Food Tracker</h1>
-          <AppNav />
-          {children}
-        </main>
+        <main>{children}</main>
       </body>
     </html>
   );
