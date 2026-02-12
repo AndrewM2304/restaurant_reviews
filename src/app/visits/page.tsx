@@ -1,9 +1,9 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { HandThumbDownIcon, HandThumbUpIcon } from '@heroicons/react/24/outline';
+import { SmileyIcon, SmileyMehIcon, SmileySadIcon } from '@/vendor/phosphor/react';
 
-import type { Restaurant, ServiceType, Thumb } from '@/core/domain/types';
+import type { Restaurant, ServiceType } from '@/core/domain/types';
 import { useRestaurants } from '@/features/restaurants/hooks/useRestaurants';
 import { useVisits } from '@/features/visits/hooks/useVisits';
 
@@ -11,19 +11,15 @@ import styles from './visits.module.css';
 
 interface DraftItem {
   name: string;
-  thumb: Exclude<Thumb, 'neutral'>;
 }
 
 interface DraftPhoto {
   storagePath: string;
 }
 
-type VisitThumb = Exclude<Thumb, 'neutral'>;
-
 type TabKey = 'locations' | 'wishlist';
 
 const dineServiceTypes: ServiceType[] = ['eat_in', 'takeaway'];
-const overallSegments = ['Terrible', 'Bad', 'Fine', 'Good', 'Great'] as const;
 
 export default function VisitsPage() {
   const restaurantsUsecases = useRestaurants();
@@ -42,7 +38,6 @@ export default function VisitsPage() {
   const [notes, setNotes] = useState('');
 
   const [itemName, setItemName] = useState('');
-  const [itemThumb, setItemThumb] = useState<VisitThumb>('up');
   const [items, setItems] = useState<DraftItem[]>([]);
 
   const [photos, setPhotos] = useState<DraftPhoto[]>([]);
@@ -102,7 +97,6 @@ export default function VisitsPage() {
     setNotes('');
     setItems([]);
     setItemName('');
-    setItemThumb('up');
     setPhotos([]);
   };
 
@@ -137,7 +131,7 @@ export default function VisitsPage() {
       serviceType,
       overallThumb: overallRating <= 1 ? 'down' : overallRating >= 3 ? 'up' : 'neutral',
       notes: notes || undefined,
-      items,
+      items: items.map((item) => ({ ...item, thumb: 'neutral' })),
       photos,
     });
 
@@ -248,10 +242,12 @@ export default function VisitsPage() {
                     value={overallRating}
                     onChange={(event) => setOverallRating(Number(event.target.value))}
                   />
-                  <div className={styles.scaleLabels}>
-                    {overallSegments.map((segment) => (
-                      <span key={segment}>{segment}</span>
-                    ))}
+                  <div className={styles.scaleLabels} aria-hidden="true">
+                    <span><SmileySadIcon weight={overallRating === 0 ? 'duotone' : 'light'} /></span>
+                    <span />
+                    <span><SmileyMehIcon weight={overallRating === 2 ? 'duotone' : 'light'} /></span>
+                    <span />
+                    <span><SmileyIcon weight={overallRating === 4 ? 'duotone' : 'light'} /></span>
                   </div>
                 </div>
 
@@ -262,31 +258,12 @@ export default function VisitsPage() {
                   <div className={styles.itemRow}>
                     <input placeholder="Item" value={itemName} onChange={(event) => setItemName(event.target.value)} />
                     <button
-                      className={`${styles.thumbButton} ${styles.secondaryButton} ${itemThumb === 'up' ? styles.thumbActive : ''}`}
-                      type="button"
-                      onClick={() => setItemThumb('up')}
-                      aria-label="Item thumbs up"
-                    >
-                      <HandThumbUpIcon />
-                    </button>
-                    <button
-                      className={`${styles.thumbButton} ${styles.secondaryButton} ${itemThumb === 'down' ? styles.thumbActive : ''} ${
-                        itemThumb === 'down' ? styles.thumbDownActive : ''
-                      }`}
-                      type="button"
-                      onClick={() => setItemThumb('down')}
-                      aria-label="Item thumbs down"
-                    >
-                      <HandThumbDownIcon />
-                    </button>
-                    <button
                       type="button"
                       className={`${styles.inlineButton} ${styles.primaryButton}`}
                       onClick={() => {
                         if (!itemName.trim()) return;
-                        setItems((current) => [...current, { name: itemName.trim(), thumb: itemThumb }]);
+                        setItems((current) => [...current, { name: itemName.trim() }]);
                         setItemName('');
-                        setItemThumb('up');
                       }}
                     >
                       Add
@@ -297,7 +274,6 @@ export default function VisitsPage() {
                     {items.map((item, index) => (
                       <li key={`${item.name}-${index}`}>
                         <span>{item.name}</span>
-                        <span className={styles.itemThumbIcon}>{item.thumb === 'up' ? <HandThumbUpIcon /> : <HandThumbDownIcon />}</span>
                         <button
                           type="button"
                           className={styles.secondaryButton}
