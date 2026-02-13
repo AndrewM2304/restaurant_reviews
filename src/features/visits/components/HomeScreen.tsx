@@ -4,13 +4,14 @@ import { AddVisitModal } from '@/features/visits/components/AddVisitModal';
 import { LocationCards } from '@/features/visits/components/LocationCards';
 import { VisitsTabs } from '@/features/visits/components/VisitsTabs';
 import { useVisitsPage } from '@/features/visits/hooks/useVisitsPage';
-import styles from './visits.module.css';
+import styles from '@/app/visits/visits.module.css';
 
-export default function VisitsPage() {
+export function HomeScreen() {
   const { viewData, actions } = useVisitsPage();
 
   return (
     <section className={styles.page}>
+      <h1 className="app-heading-1">Home Screen</h1>
       <VisitsTabs tab={viewData.tab} onChange={actions.setTab} />
 
       <input

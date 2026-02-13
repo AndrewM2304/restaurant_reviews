@@ -11,7 +11,7 @@ export function AppNav() {
   return (
     <nav style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
       {tabs.map((tab) => {
-        const active = pathname === tab.href || pathname.startsWith('/visits');
+        const active = pathname === tab.href || pathname.startsWith('/location');
         return (
           <Link
             key={tab.href}
