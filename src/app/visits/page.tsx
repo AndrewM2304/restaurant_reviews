@@ -1,9 +1,9 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { SmileyIcon, SmileyMehIcon, SmileySadIcon } from '@/vendor/phosphor/react';
+import { MinusIcon, PlusIcon, SmileyIcon, SmileyMehIcon, SmileySadIcon } from '@/vendor/phosphor/react';
 
-import type { Restaurant, ServiceType } from '@/core/domain/types';
+import type { Restaurant } from '@/core/domain/types';
 import { useRestaurants } from '@/features/restaurants/hooks/useRestaurants';
 import { useVisits } from '@/features/visits/hooks/useVisits';
 
@@ -19,8 +19,6 @@ interface DraftPhoto {
 
 type TabKey = 'locations' | 'wishlist';
 
-const dineServiceTypes: ServiceType[] = ['eat_in', 'takeaway'];
-
 export default function VisitsPage() {
   const restaurantsUsecases = useRestaurants();
   const visitsUsecases = useVisits();
@@ -33,7 +31,6 @@ export default function VisitsPage() {
 
   const [locationName, setLocationName] = useState('');
   const [visitDate, setVisitDate] = useState(new Date().toISOString().slice(0, 10));
-  const [serviceType, setServiceType] = useState<ServiceType>('eat_in');
   const [overallRating, setOverallRating] = useState(2);
   const [notes, setNotes] = useState('');
 
@@ -92,7 +89,6 @@ export default function VisitsPage() {
   const resetForm = () => {
     setLocationName('');
     setVisitDate(new Date().toISOString().slice(0, 10));
-    setServiceType('eat_in');
     setOverallRating(2);
     setNotes('');
     setItems([]);
@@ -128,7 +124,7 @@ export default function VisitsPage() {
     await visitsUsecases.addVisit({
       restaurantId: restaurant.id,
       visitDate,
-      serviceType,
+      serviceType: 'eat_in',
       overallThumb: overallRating <= 1 ? 'down' : overallRating >= 3 ? 'up' : 'neutral',
       notes: notes || undefined,
       items: items.map((item) => ({ ...item, thumb: 'neutral' })),
@@ -215,24 +211,13 @@ export default function VisitsPage() {
 
                 <input type="date" value={visitDate} onChange={(event) => setVisitDate(event.target.value)} required />
 
-                <fieldset className={styles.serviceTypeGroup}>
-                  <legend>Service</legend>
-                  {dineServiceTypes.map((value) => (
-                    <label key={value} className={styles.radioOption}>
-                      <input
-                        type="radio"
-                        name="serviceType"
-                        value={value}
-                        checked={serviceType === value}
-                        onChange={(event) => setServiceType(event.target.value as ServiceType)}
-                      />
-                      <span>{value === 'eat_in' ? 'Eat in' : 'Take away'}</span>
-                    </label>
-                  ))}
-                </fieldset>
-
                 <div className={styles.scaleField}>
                   <label htmlFor="overall-scale">Rating</label>
+                  <div className={styles.scaleLabels} aria-hidden="true">
+                    <span className={styles.scaleLabelStart}><SmileySadIcon weight={overallRating === 0 ? 'duotone' : 'light'} /></span>
+                    <span className={styles.scaleLabelCenter}><SmileyMehIcon weight={overallRating === 2 ? 'duotone' : 'light'} /></span>
+                    <span className={styles.scaleLabelEnd}><SmileyIcon weight={overallRating === 4 ? 'duotone' : 'light'} /></span>
+                  </div>
                   <input
                     id="overall-scale"
                     type="range"
@@ -242,13 +227,6 @@ export default function VisitsPage() {
                     value={overallRating}
                     onChange={(event) => setOverallRating(Number(event.target.value))}
                   />
-                  <div className={styles.scaleLabels} aria-hidden="true">
-                    <span><SmileySadIcon weight={overallRating === 0 ? 'duotone' : 'light'} /></span>
-                    <span />
-                    <span><SmileyMehIcon weight={overallRating === 2 ? 'duotone' : 'light'} /></span>
-                    <span />
-                    <span><SmileyIcon weight={overallRating === 4 ? 'duotone' : 'light'} /></span>
-                  </div>
                 </div>
 
                 <textarea placeholder="Visit notes (optional)" value={notes} onChange={(event) => setNotes(event.target.value)} />
@@ -259,14 +237,14 @@ export default function VisitsPage() {
                     <input placeholder="Item" value={itemName} onChange={(event) => setItemName(event.target.value)} />
                     <button
                       type="button"
-                      className={`${styles.inlineButton} ${styles.primaryButton}`}
+                      className={`${styles.iconButton} ${styles.primaryButton}`}
                       onClick={() => {
                         if (!itemName.trim()) return;
                         setItems((current) => [...current, { name: itemName.trim() }]);
                         setItemName('');
                       }}
                     >
-                      Add
+                      <PlusIcon />
                     </button>
                   </div>
 
@@ -276,10 +254,10 @@ export default function VisitsPage() {
                         <span>{item.name}</span>
                         <button
                           type="button"
-                          className={styles.secondaryButton}
+                          className={`${styles.iconButton} ${styles.secondaryButton}`}
                           onClick={() => setItems((current) => current.filter((_, i) => i !== index))}
                         >
-                          Remove
+                          <MinusIcon />
                         </button>
                       </li>
                     ))}
@@ -303,10 +281,10 @@ export default function VisitsPage() {
                         <span>{photo.storagePath}</span>
                         <button
                           type="button"
-                          className={styles.secondaryButton}
+                          className={`${styles.iconButton} ${styles.secondaryButton}`}
                           onClick={() => setPhotos((current) => current.filter((_, i) => i !== index))}
                         >
-                          Remove
+                          <MinusIcon />
                         </button>
                       </li>
                     ))}

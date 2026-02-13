@@ -36,3 +36,20 @@ export function SmileySadIcon(props: IconProps) {
 export function SmileyMehIcon(props: IconProps) {
   return <SmileyBase mood="meh" {...props} />;
 }
+
+export function PlusIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 256 256" fill="none" aria-hidden="true" {...props}>
+      <path d="M128 56v144" stroke="currentColor" strokeWidth={16} strokeLinecap="round" />
+      <path d="M56 128h144" stroke="currentColor" strokeWidth={16} strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function MinusIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 256 256" fill="none" aria-hidden="true" {...props}>
+      <path d="M56 128h144" stroke="currentColor" strokeWidth={16} strokeLinecap="round" />
+    </svg>
+  );
+}
