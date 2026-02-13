@@ -324,7 +324,7 @@ export default function VisitsPage() {
                         />
                         <button
                           type="button"
-                          className={`${styles.iconButton} ${styles.secondaryButton}`}
+                          className={`${styles.iconButton} ${styles.removePhotoButton}`}
                           onClick={() => removePhoto(index)}
                         >
                           <MinusIcon />
