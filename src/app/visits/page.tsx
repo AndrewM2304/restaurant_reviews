@@ -256,10 +256,31 @@ export default function VisitsPage() {
 
                 <div className={styles.scaleField}>
                   <label htmlFor="overall-scale">Rating</label>
-                  <div className={styles.scaleLabels} aria-hidden="true">
-                    <span className={styles.scaleLabelStart}><SmileySadIcon weight={overallRating === 0 ? 'duotone' : 'light'} /></span>
-                    <span className={styles.scaleLabelCenter}><SmileyMehIcon weight={overallRating === 2 ? 'duotone' : 'light'} /></span>
-                    <span className={styles.scaleLabelEnd}><SmileyIcon weight={overallRating === 4 ? 'duotone' : 'light'} /></span>
+                  <div className={styles.scaleLabels}>
+                    <button
+                      type="button"
+                      className={`${styles.scaleIconButton} ${styles.scaleLabelStart}`}
+                      onClick={() => setOverallRating(0)}
+                      aria-label="Set rating to sad"
+                    >
+                      <SmileySadIcon weight={overallRating === 0 ? 'duotone' : 'light'} />
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.scaleIconButton} ${styles.scaleLabelCenter}`}
+                      onClick={() => setOverallRating(2)}
+                      aria-label="Set rating to neutral"
+                    >
+                      <SmileyMehIcon weight={overallRating === 2 ? 'duotone' : 'light'} />
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.scaleIconButton} ${styles.scaleLabelEnd}`}
+                      onClick={() => setOverallRating(4)}
+                      aria-label="Set rating to happy"
+                    >
+                      <SmileyIcon weight={overallRating === 4 ? 'duotone' : 'light'} />
+                    </button>
                   </div>
                   <input
                     id="overall-scale"

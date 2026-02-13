@@ -111,7 +111,7 @@
   overflow: hidden;
   background: #fff;
   border-radius: 18px;
-  padding: 1rem;
+  padding: 1rem 1rem 0;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
@@ -220,6 +220,28 @@
   color: #111;
 }
 
+.scaleIconButton {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  min-height: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.scaleIconButton:hover,
+.scaleIconButton:focus,
+.scaleIconButton:focus-visible,
+.scaleIconButton:active {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
 .scaleLabelStart {
   justify-self: start;
 }
@@ -315,9 +337,8 @@
 .primaryButton,
 .secondaryButton {
   border-radius: 10px;
-  padding: 0 0.95rem;
+  padding: 0.75rem 0.95rem;
   min-height: 46px;
-  margin: 0;
   font-weight: 600;
 }
 
