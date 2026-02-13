@@ -166,19 +166,22 @@
 
 .scaleField {
   display: grid;
-  gap: 0.45rem;
+  gap: 0;
   margin-top: 0.45rem;
 }
 
 .scaleField label {
   color: #333;
   gap: 0;
+  margin: 0 0 0.45rem;
   font-weight: 600;
 }
 
 .scaleField input[type='range'] {
   accent-color: #111;
   -webkit-tap-highlight-color: transparent;
+  margin: 0;
+  padding: 0;
 }
 
 .scaleField input[type='range']::-webkit-slider-thumb {
@@ -208,7 +211,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   color: #4a4a4a;
-  margin: 2px 0 1px;
+  margin: 0;
 }
 
 .scaleLabels svg {
@@ -297,8 +300,8 @@
 .formFooter {
   position: sticky;
   bottom: 0;
-  margin: 0 -1rem -0.5rem;
-  padding: 0.6rem 1rem;
+  margin: 0 -1rem -0.25rem;
+  padding: 0.45rem 1rem 0.2rem;
   border-top: 1px solid #e5e7eb;
   background: #fff;
 }
@@ -389,8 +392,14 @@
 .photoLoadingOverlay {
   position: absolute;
   inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.72);
+  color: #111;
+  font-size: 0.85rem;
+  font-weight: 600;
   pointer-events: none;
 }
 
