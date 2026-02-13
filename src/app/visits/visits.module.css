@@ -269,7 +269,7 @@
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 0.35rem;
+  gap: 0;
 }
 
 .list li {
@@ -277,9 +277,11 @@
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.6rem;
   align-items: center;
-  border: 1px solid #d4d4d4;
-  border-radius: 10px;
-  padding: 0.45rem 0.55rem;
+  padding: 0.6rem 0;
+}
+
+.list li + li {
+  border-top: 1px solid #d4d4d4;
 }
 
 .list li > span:first-child {
@@ -319,6 +321,42 @@
   border: 1px solid #111;
   background: transparent;
   color: #111;
+}
+
+.photoUploadRow {
+  margin-top: 0.2rem;
+}
+
+.uploadButton {
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.photoList li {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+}
+
+.photoPreview {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .message {
