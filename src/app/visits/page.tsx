@@ -15,6 +15,7 @@ interface DraftItem {
 }
 
 interface DraftPhoto {
+  id: string;
   storagePath: string;
   previewUrl: string;
   isLoading: boolean;
@@ -117,6 +118,10 @@ export default function VisitsPage() {
     setPhotos((current) => [
       ...current,
       ...selectedFiles.map((file) => ({
+        id:
+          typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+            ? crypto.randomUUID()
+            : `${file.name}-${Date.now()}-${Math.random()}`,
         storagePath: file.name,
         previewUrl: URL.createObjectURL(file),
         isLoading: true,
@@ -125,19 +130,19 @@ export default function VisitsPage() {
     event.target.value = '';
   };
 
-  const markPhotoLoaded = (previewUrl: string) => {
+  const markPhotoLoaded = (photoId: string) => {
     setPhotos((current) =>
-      current.map((photo) => (photo.previewUrl === previewUrl ? { ...photo, isLoading: false } : photo)),
+      current.map((photo) => (photo.id === photoId ? { ...photo, isLoading: false } : photo)),
     );
   };
 
-  const removePhoto = (indexToRemove: number) => {
+  const removePhoto = (photoId: string) => {
     setPhotos((current) => {
-      const photoToRemove = current[indexToRemove];
+      const photoToRemove = current.find((photo) => photo.id === photoId);
       if (photoToRemove) {
         URL.revokeObjectURL(photoToRemove.previewUrl);
       }
-      return current.filter((_, index) => index !== indexToRemove);
+      return current.filter((photo) => photo.id !== photoId);
     });
   };
 
@@ -251,10 +256,31 @@ export default function VisitsPage() {
 
                 <div className={styles.scaleField}>
                   <label htmlFor="overall-scale">Rating</label>
-                  <div className={styles.scaleLabels} aria-hidden="true">
-                    <span className={styles.scaleLabelStart}><SmileySadIcon weight={overallRating === 0 ? 'duotone' : 'light'} /></span>
-                    <span className={styles.scaleLabelCenter}><SmileyMehIcon weight={overallRating === 2 ? 'duotone' : 'light'} /></span>
-                    <span className={styles.scaleLabelEnd}><SmileyIcon weight={overallRating === 4 ? 'duotone' : 'light'} /></span>
+                  <div className={styles.scaleLabels}>
+                    <button
+                      type="button"
+                      className={`${styles.scaleIconButton} ${styles.scaleLabelStart}`}
+                      onClick={() => setOverallRating(0)}
+                      aria-label="Set rating to sad"
+                    >
+                      <SmileySadIcon weight={overallRating === 0 ? 'duotone' : 'light'} />
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.scaleIconButton} ${styles.scaleLabelCenter}`}
+                      onClick={() => setOverallRating(2)}
+                      aria-label="Set rating to neutral"
+                    >
+                      <SmileyMehIcon weight={overallRating === 2 ? 'duotone' : 'light'} />
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.scaleIconButton} ${styles.scaleLabelEnd}`}
+                      onClick={() => setOverallRating(4)}
+                      aria-label="Set rating to happy"
+                    >
+                      <SmileyIcon weight={overallRating === 4 ? 'duotone' : 'light'} />
+                    </button>
                   </div>
                   <input
                     id="overall-scale"
@@ -320,22 +346,23 @@ export default function VisitsPage() {
                   </div>
 
                   <ul className={`${styles.list} ${styles.photoList}`}>
-                    {photos.map((photo, index) => (
-                      <li key={`${photo.storagePath}-${index}`} className={photo.isLoading ? styles.photoLoadingItem : ''}>
+                    {photos.map((photo) => (
+                      <li key={photo.id} className={photo.isLoading ? styles.photoLoadingItem : ''}>
                         <Image
                           src={photo.previewUrl}
                           alt={photo.storagePath}
                           className={styles.photoPreview}
                           width={320}
-                          height={180}
+                          height={320}
                           unoptimized
-                          onLoad={() => markPhotoLoaded(photo.previewUrl)}
+                          onLoad={() => markPhotoLoaded(photo.id)}
+                          onError={() => markPhotoLoaded(photo.id)}
                         />
                         {photo.isLoading ? <span className={styles.photoLoadingOverlay}>Loading preview…</span> : null}
                         <button
                           type="button"
                           className={`${styles.iconButton} ${styles.removePhotoButton}`}
-                          onClick={() => removePhoto(index)}
+                          onClick={() => removePhoto(photo.id)}
                         >
                           <MinusIcon />
                         </button>
