@@ -501,3 +501,97 @@
     grid-template-columns: minmax(0, 1fr) auto;
   }
 }
+
+.locationCardLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.detailsPage {
+  display: grid;
+  gap: 1rem;
+}
+
+.backLink {
+  color: #0f766e;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.photoCarousel {
+  position: relative;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.heroPhoto,
+.photoFallback {
+  width: 100%;
+  max-height: 280px;
+  border-radius: 14px;
+  object-fit: cover;
+  border: 1px solid #d4d4d4;
+}
+
+.photoFallback {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  background: #f8fafc;
+}
+
+.carouselButton {
+  width: max-content;
+}
+
+.photoPagination {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+}
+
+.dot,
+.activeDot {
+  width: 10px;
+  height: 10px;
+  min-height: 10px;
+  border-radius: 999px;
+  border: none;
+  background: #cbd5e1;
+  padding: 0;
+}
+
+.activeDot {
+  background: #0f766e;
+}
+
+.detailsSummary,
+.visitCard {
+  border: 1px solid #d4d4d4;
+  border-radius: 14px;
+  padding: 0.9rem;
+}
+
+.detailsSummary p,
+.visitCard p {
+  margin: 0.3rem 0;
+}
+
+.visitList {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.inlinePhotos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 0.5rem;
+}
+
+.inlinePhoto {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #d4d4d4;
+}
