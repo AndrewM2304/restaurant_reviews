@@ -331,7 +331,7 @@ export default function VisitsPage() {
                           unoptimized
                           onLoad={() => markPhotoLoaded(photo.previewUrl)}
                         />
-                        {photo.isLoading ? <span className={styles.photoLoadingOverlay} aria-hidden="true" /> : null}
+                        {photo.isLoading ? <span className={styles.photoLoadingOverlay}>Loading preview…</span> : null}
                         <button
                           type="button"
                           className={`${styles.iconButton} ${styles.removePhotoButton}`}
