@@ -1,6 +1,7 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Image from 'next/image';
 import { MinusIcon, PlusIcon, SmileyIcon, SmileyMehIcon, SmileySadIcon } from '@/vendor/phosphor/react';
 
 import type { Restaurant } from '@/core/domain/types';
@@ -15,6 +16,7 @@ interface DraftItem {
 
 interface DraftPhoto {
   storagePath: string;
+  previewUrl: string;
 }
 
 type TabKey = 'locations' | 'wishlist';
@@ -38,6 +40,7 @@ export default function VisitsPage() {
   const [items, setItems] = useState<DraftItem[]>([]);
 
   const [photos, setPhotos] = useState<DraftPhoto[]>([]);
+  const photosRef = useRef<DraftPhoto[]>([]);
 
   const [message, setMessage] = useState('');
 
@@ -54,6 +57,16 @@ export default function VisitsPage() {
       document.body.style.overflow = previousOverflow;
     };
   }, [showModal]);
+
+  useEffect(() => {
+    photosRef.current = photos;
+  }, [photos]);
+
+  useEffect(() => {
+    return () => {
+      photosRef.current.forEach((photo) => URL.revokeObjectURL(photo.previewUrl));
+    };
+  }, []);
 
   const refreshData = useCallback(async () => {
     const [wishlist, visited] = await Promise.all([
@@ -93,14 +106,31 @@ export default function VisitsPage() {
     setNotes('');
     setItems([]);
     setItemName('');
+    photos.forEach((photo) => URL.revokeObjectURL(photo.previewUrl));
     setPhotos([]);
   };
 
   const addPhotoFromBrowser = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
-    if (!selectedFile) return;
-    setPhotos((current) => [...current, { storagePath: selectedFile.name }]);
+    const selectedFiles = Array.from(event.target.files ?? []);
+    if (!selectedFiles.length) return;
+    setPhotos((current) => [
+      ...current,
+      ...selectedFiles.map((file) => ({
+        storagePath: file.name,
+        previewUrl: URL.createObjectURL(file),
+      })),
+    ]);
     event.target.value = '';
+  };
+
+  const removePhoto = (indexToRemove: number) => {
+    setPhotos((current) => {
+      const photoToRemove = current[indexToRemove];
+      if (photoToRemove) {
+        URL.revokeObjectURL(photoToRemove.previewUrl);
+      }
+      return current.filter((_, index) => index !== indexToRemove);
+    });
   };
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
@@ -266,23 +296,36 @@ export default function VisitsPage() {
 
                 <div className={styles.itemEditor}>
                   <h4 className="app-heading-4">Photos</h4>
-                  <div className={styles.itemRow}>
+                  <div className={styles.photoUploadRow}>
                     <input
+                      id="visit-photo-upload"
+                      className={styles.visuallyHidden}
                       type="file"
                       accept="image/*"
+                      multiple
                       onChange={addPhotoFromBrowser}
                       aria-label="Choose photo from your device"
                     />
+                    <label htmlFor="visit-photo-upload" className={`${styles.secondaryButton} ${styles.uploadButton}`}>
+                      Upload photos
+                    </label>
                   </div>
 
-                  <ul className={styles.list}>
+                  <ul className={`${styles.list} ${styles.photoList}`}>
                     {photos.map((photo, index) => (
                       <li key={`${photo.storagePath}-${index}`}>
-                        <span>{photo.storagePath}</span>
+                        <Image
+                          src={photo.previewUrl}
+                          alt={photo.storagePath}
+                          className={styles.photoPreview}
+                          width={320}
+                          height={180}
+                          unoptimized
+                        />
                         <button
                           type="button"
                           className={`${styles.iconButton} ${styles.secondaryButton}`}
-                          onClick={() => setPhotos((current) => current.filter((_, i) => i !== index))}
+                          onClick={() => removePhoto(index)}
                         >
                           <MinusIcon />
                         </button>
