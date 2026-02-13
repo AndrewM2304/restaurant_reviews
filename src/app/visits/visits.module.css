@@ -164,48 +164,10 @@
   color: #111;
 }
 
-.serviceTypeGroup {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.5rem;
-  border: none;
-  margin: 0;
-  padding: 0;
-}
-
-.serviceTypeGroup legend {
-  grid-column: 1 / -1;
-  color: #333;
-  font-size: 0.95rem;
-  padding: 0;
-  margin-bottom: 0.1rem;
-}
-
-.radioOption {
-  border: 1px solid #bdbdbd;
-  border-radius: 12px;
-  padding: 0.55rem 0.65rem;
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-weight: 500;
-  color: #2b2b2b;
-}
-
-.radioOption input {
-  width: auto;
-  accent-color: #111;
-}
-
-.radioOption:has(input:checked) {
-  border-color: #111;
-  background: #efefef;
-  color: #111;
-}
-
 .scaleField {
   display: grid;
   gap: 0.45rem;
+  margin-top: 0.45rem;
 }
 
 .scaleField label {
@@ -244,31 +206,39 @@
 
 .scaleLabels {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.35rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   color: #4a4a4a;
-  font-size: 0.8rem;
-}
-
-.scaleLabels span {
-  text-align: center;
 }
 
 .scaleLabels svg {
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
   color: #111;
 }
 
+.scaleLabelStart {
+  justify-self: start;
+}
 
+.scaleLabelCenter {
+  justify-self: center;
+}
+
+.scaleLabelEnd {
+  justify-self: end;
+}
+
+.itemEditor {
+  margin-top: 0.55rem;
+}
 
 .itemEditor h4 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.55rem;
 }
 
 .itemRow {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.45rem;
   align-items: center;
 }
@@ -277,8 +247,17 @@
   min-width: 0;
 }
 
-.inlineButton {
-  grid-column: 1 / -1;
+.iconButton {
+  width: 46px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconButton svg {
+  width: 24px;
+  height: 24px;
 }
 
 
@@ -375,15 +354,7 @@
     padding: 1rem;
   }
 
-  .itemRow {
-    grid-template-columns: 1fr auto auto auto;
-  }
-
-  .inlineButton {
-    grid-column: auto;
-  }
-
   .list li {
-    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 }
