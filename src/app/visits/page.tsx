@@ -17,6 +17,7 @@ interface DraftItem {
 interface DraftPhoto {
   storagePath: string;
   previewUrl: string;
+  isLoading: boolean;
 }
 
 type TabKey = 'locations' | 'wishlist';
@@ -118,9 +119,16 @@ export default function VisitsPage() {
       ...selectedFiles.map((file) => ({
         storagePath: file.name,
         previewUrl: URL.createObjectURL(file),
+        isLoading: true,
       })),
     ]);
     event.target.value = '';
+  };
+
+  const markPhotoLoaded = (previewUrl: string) => {
+    setPhotos((current) =>
+      current.map((photo) => (photo.previewUrl === previewUrl ? { ...photo, isLoading: false } : photo)),
+    );
   };
 
   const removePhoto = (indexToRemove: number) => {
@@ -313,7 +321,7 @@ export default function VisitsPage() {
 
                   <ul className={`${styles.list} ${styles.photoList}`}>
                     {photos.map((photo, index) => (
-                      <li key={`${photo.storagePath}-${index}`}>
+                      <li key={`${photo.storagePath}-${index}`} className={photo.isLoading ? styles.photoLoadingItem : ''}>
                         <Image
                           src={photo.previewUrl}
                           alt={photo.storagePath}
@@ -321,7 +329,9 @@ export default function VisitsPage() {
                           width={320}
                           height={180}
                           unoptimized
+                          onLoad={() => markPhotoLoaded(photo.previewUrl)}
                         />
+                        {photo.isLoading ? <span className={styles.photoLoadingOverlay} aria-hidden="true" /> : null}
                         <button
                           type="button"
                           className={`${styles.iconButton} ${styles.removePhotoButton}`}

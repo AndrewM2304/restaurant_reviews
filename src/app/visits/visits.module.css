@@ -128,7 +128,7 @@
   overflow-y: auto;
   display: grid;
   gap: 0.8rem;
-  padding: 0 0.25rem 0.5rem 0;
+  padding: 0 0.25rem 0.9rem 0;
 }
 
 .form input,
@@ -208,7 +208,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   color: #4a4a4a;
-  margin: 2px 0 5px;
+  margin: 2px 0 1px;
 }
 
 .scaleLabels svg {
@@ -297,8 +297,8 @@
 .formFooter {
   position: sticky;
   bottom: 0;
-  margin: 0 -1rem -1rem;
-  padding: 0.75rem 1rem;
+  margin: 0 -1rem -0.5rem;
+  padding: 0.6rem 1rem;
   border-top: 1px solid #e5e7eb;
   background: #fff;
 }
@@ -380,6 +380,18 @@
   aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 10px;
+}
+
+.photoLoadingItem {
+  opacity: 0.75;
+}
+
+.photoLoadingOverlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
 }
 
 .removePhotoButton {
