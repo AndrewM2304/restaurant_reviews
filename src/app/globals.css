@@ -1,14 +1,14 @@
 :root {
   color-scheme: light;
-  --bg-start: #fff7fb;
-  --bg-mid: #f4f2ff;
-  --bg-end: #eefcff;
-  --text-main: #3f3554;
-  --text-soft: #645a7e;
+  --bg-start: #f6f8fb;
+  --bg-mid: #edf2f7;
+  --bg-end: #e5edf5;
+  --text-main: #1f2937;
+  --text-soft: #4b5563;
   --surface: rgba(255, 255, 255, 0.86);
-  --surface-border: #dccff3;
-  --accent: #9d7be6;
-  --accent-strong: #7f5fd0;
+  --surface-border: #d5deea;
+  --accent: #3b82f6;
+  --accent-strong: #2563eb;
 }
 
 * {
@@ -52,15 +52,15 @@ textarea {
 
 button {
   cursor: pointer;
-  border: 1px solid #8f73dd;
-  background: linear-gradient(135deg, #b798ff 0%, #8e6de8 100%);
+  border: 1px solid #1f2937;
+  background: linear-gradient(135deg, #334155 0%, #1f2937 100%);
   color: #ffffff;
   border-radius: 12px;
   padding: 0.6rem 0.9rem;
   font-weight: 600;
   line-height: 1.2;
   transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
-  box-shadow: 0 8px 18px rgba(157, 123, 230, 0.32);
+  box-shadow: 0 8px 18px rgba(31, 41, 55, 0.28);
   user-select: none;
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
