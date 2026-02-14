@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import { SmileyIcon } from '@/vendor/phosphor/react';
 
 import type { VisitPhoto } from '@/core/domain/types';
@@ -21,14 +22,8 @@ const getInitials = (name: string) =>
     .join('');
 
 export function LocationDetailsScreen() {
-  const [locationId, setLocationId] = useState('');
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
-    setLocationId(hash.get('id') ?? '');
-  }, []);
-
+  const searchParams = useSearchParams();
+  const locationId = searchParams.get('id') ?? '';
   const { viewData } = useLocationDetailsPage(locationId);
   const [modalPhotos, setModalPhotos] = useState<VisitPhoto[]>([]);
   const [modalIndex, setModalIndex] = useState(0);

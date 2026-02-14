@@ -29,6 +29,14 @@ export function useLocationDetailsPage(locationId: string) {
 
   useEffect(() => {
     const loadData = async () => {
+      if (!locationId) {
+        setRestaurant(null);
+        setVisits([]);
+        setError('Location not found.');
+        setIsLoading(false);
+        return;
+      }
+
       setIsLoading(true);
       setError('');
 
