@@ -517,33 +517,37 @@
 }
 
 .detailsTopNav {
-  position: relative;
-  z-index: 5;
-  text-align: center;
-  line-height: 48px;
-  line-height: 2rem;
-  text-align: center;
-}
-
-.visitCard + .visitCard {
-  margin-top: 0.55rem;
-  position: relative;
-  min-height: 2.6rem;
-  padding-left: 3.05rem;
-}
-
-.visitHeader > div:last-child {
-  min-width: 0;
-  position: absolute;
+  position: sticky;
   top: 0;
-  left: 0;
-  line-height: 2.6rem;
-  text-align: center;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 48px;
+  padding: max(0.2rem, env(safe-area-inset-top)) 0.55rem 0;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
 
-  display: list-item;
-  white-space: nowrap;
-  display: inline-block;
-  vertical-align: top;
+.detailsTopNav h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.topNavBackButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #1f2937;
+  font-size: 1.5rem;
+  line-height: 1;
 }
 
 .photoRail li + li {
@@ -575,6 +579,10 @@
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 0.45rem;
+}
+
+.visitHeader > div:last-child {
+  min-width: 0;
 }
 
 .visitAvatar {
