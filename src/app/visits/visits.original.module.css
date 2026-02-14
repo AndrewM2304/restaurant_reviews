@@ -3,23 +3,12 @@
   min-height: 70vh;
 }
 
-.page::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 15% 12%, rgba(255, 196, 226, 0.32), transparent 44%),
-    radial-gradient(circle at 85% 10%, rgba(190, 238, 255, 0.3), transparent 40%),
-    radial-gradient(circle at 72% 78%, rgba(218, 202, 255, 0.36), transparent 42%);
-  z-index: -1;
-}
-
 .tabs {
   position: relative;
   display: inline-grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0;
-  background: #f4ecff;
+  background: #e7e7e7;
   border-radius: 999px;
   padding: 0.25rem;
   margin-bottom: 1rem;
@@ -33,7 +22,7 @@
   width: calc(50% - 0.25rem);
   height: calc(100% - 0.5rem);
   border-radius: 999px;
-  background: #7f5fd0;
+  background: #111;
   transition: transform 0.24s ease;
 }
 
@@ -46,14 +35,14 @@
   padding: 0.5rem 0.95rem;
   border-radius: 999px;
   background: transparent;
-  color: #5f4b8b;
+  color: #2f2f2f;
   position: relative;
   z-index: 1;
   transition: color 0.2s ease;
 }
 
 .activeTab {
-  color: #ffffff;
+  color: #fff;
 }
 
 .search {
@@ -68,11 +57,11 @@
 }
 
 .locationCard {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid #dfd2f5;
+  background: #fff;
+  border: 1px solid #d4d4d4;
   border-radius: 14px;
   padding: 0.9rem;
-  box-shadow: 0 2px 10px rgba(143, 115, 221, 0.18);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
 .locationCard h3 {
@@ -81,11 +70,11 @@
 
 .meta {
   margin: 0.15rem 0;
-  color: #6c5e8c;
+  color: #4a4a4a;
 }
 
 .empty {
-  color: #7d6ea1;
+  color: #6a6a6a;
 }
 
 .fab {
@@ -94,19 +83,19 @@
   bottom: 1rem;
   width: 56px;
   height: 56px;
-  border: 1px solid #7f5fd0;
+  border: 1px solid #111;
   border-radius: 999px;
   font-size: 1.9rem;
   line-height: 0;
-  color: #ffffff;
-  background: #7f5fd0;
-  box-shadow: 0 10px 25px rgba(92, 70, 145, 0.3);
+  color: #fff;
+  background: #111;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .modalBackdrop {
   position: fixed;
   inset: 0;
-  background: rgba(92, 70, 145, 0.3);
+  background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(2px);
   display: grid;
   place-items: end center;
@@ -120,11 +109,10 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(251, 245, 255, 0.95));
-  border: 1px solid #e8dcfb;
+  background: #fff;
   border-radius: 18px;
   padding: 1rem 1rem 0;
-  box-shadow: 0 20px 40px rgba(92, 70, 145, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .form {
@@ -160,7 +148,7 @@
 .form input[type='date'] {
   appearance: none;
   -webkit-appearance: none;
-  color: #7f5fd0;
+  color: #111;
   text-align: left;
 }
 
@@ -173,7 +161,7 @@
 .form input[type='date']::-webkit-datetime-edit-month-field,
 .form input[type='date']::-webkit-datetime-edit-day-field,
 .form input[type='date']::-webkit-datetime-edit-year-field {
-  color: #7f5fd0;
+  color: #111;
 }
 
 .scaleField {
@@ -183,14 +171,14 @@
 }
 
 .scaleField label {
-  color: #5f4f85;
+  color: #333;
   gap: 0;
   margin: 0 0 0.45rem;
   font-weight: 600;
 }
 
 .scaleField input[type='range'] {
-  accent-color: #7f5fd0;
+  accent-color: #111;
   -webkit-tap-highlight-color: transparent;
   margin: 0;
   padding: 0;
@@ -222,14 +210,14 @@
 .scaleLabels {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  color: #6c5e8c;
+  color: #4a4a4a;
   margin: 0;
 }
 
 .scaleLabels svg {
   width: 28px;
   height: 28px;
-  color: #7f5fd0;
+  color: #111;
 }
 
 .scaleIconButton {
@@ -318,7 +306,7 @@
 }
 
 .list li + li {
-  border-top: 1px solid #dfd2f5;
+  border-top: 1px solid #d4d4d4;
 }
 
 .list li > span:first-child {
@@ -342,8 +330,8 @@
   bottom: 0;
   margin: 0 -1rem;
   padding: 0 1rem;
-  border-top: 1px solid #e7dcf7;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(245, 240, 255, 0.96));
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
 }
 
 .primaryButton,
@@ -355,15 +343,15 @@
 }
 
 .primaryButton {
-  border: 1px solid #7f5fd0;
-  background: #7f5fd0;
-  color: #ffffff;
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
 }
 
 .secondaryButton {
-  border: 1px solid #7f5fd0;
+  border: 1px solid #111;
   background: transparent;
-  color: #7f5fd0;
+  color: #111;
   transition: none;
 }
 
@@ -372,8 +360,8 @@
 .secondaryButton:focus-visible,
 .secondaryButton:active {
   background: transparent;
-  color: #7f5fd0;
-  border-color: #7f5fd0;
+  color: #111;
+  border-color: #111;
   box-shadow: none;
   outline: none;
 }
@@ -436,8 +424,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.78);
-  color: #7f5fd0;
+  background: rgba(255, 255, 255, 0.72);
+  color: #111;
   font-size: 0.85rem;
   font-weight: 600;
   pointer-events: none;
@@ -452,8 +440,8 @@
   min-height: 28px;
   border-radius: 999px;
   border: none;
-  background: rgba(255, 255, 255, 0.82);
-  color: #7f5fd0;
+  background: rgba(255, 255, 255, 0.7);
+  color: #111;
   z-index: 1;
 }
 
@@ -461,8 +449,8 @@
 .removePhotoButton:focus,
 .removePhotoButton:focus-visible,
 .removePhotoButton:active {
-  background: rgba(255, 255, 255, 0.82);
-  color: #7f5fd0;
+  background: rgba(255, 255, 255, 0.7);
+  color: #111;
   border: none;
   box-shadow: none;
   outline: none;
@@ -474,7 +462,7 @@
 }
 
 .message {
-  color: #7f5fd0;
+  color: #111;
   margin: 0;
 }
 
@@ -527,7 +515,7 @@
 }
 
 .backLink {
-  color: #7a62c9;
+  color: #0f766e;
   text-decoration: none;
   font-weight: 600;
   padding: 0 1rem;
@@ -558,7 +546,7 @@
   min-height: 220px;
   display: grid;
   place-items: center;
-  background: #f8f2ff;
+  background: #f8fafc;
 }
 
 .photoPaginationOverlay {
@@ -577,21 +565,21 @@
   min-height: 9px;
   border-radius: 999px;
   border: none;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.55);
   padding: 0;
 }
 
 .activeDot {
-  background: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .detailsSummaryCard {
   margin: -2rem auto 0;
   width: calc(100% - 2rem);
-  background: #ffffff;
+  background: #fff;
   border-radius: 16px;
   padding: 0.95rem 1rem;
-  box-shadow: 0 16px 30px rgba(143, 115, 221, 0.18);
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.12);
   z-index: 1;
 }
 
@@ -603,7 +591,7 @@
 
 .detailsSummaryCard p {
   margin: 0.3rem 0 0;
-  color: #655a85;
+  color: #374151;
 }
 
 .totalVisits {
@@ -618,7 +606,7 @@
 }
 
 .visitCard {
-  border: 1px solid #dfd2f5;
+  border: 1px solid #d4d4d4;
   border-radius: 14px;
   padding: 0.9rem;
   display: grid;
@@ -646,10 +634,10 @@
   aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 10px;
-  border: 1px solid #dfd2f5;
+  border: 1px solid #d4d4d4;
   position: absolute;
   inset: 0;
-  background: #ffffff;
+  background: #fff;
 }
 
 .visitTopPhoto {
@@ -665,10 +653,10 @@
   height: 100%;
   display: grid;
   place-items: center;
-  background: #f7f0ff;
+  background: #f3f4f6;
   border-radius: 10px;
-  border: 1px solid #dfd2f5;
-  color: #7d72a3;
+  border: 1px solid #d4d4d4;
+  color: #6b7280;
   font-size: 0.85rem;
 }
 
@@ -683,7 +671,7 @@
 .fullscreenGallery {
   position: fixed;
   inset: 0;
-  background: rgba(53, 38, 92, 0.9);
+  background: rgba(15, 23, 42, 0.9);
   z-index: 20;
   display: grid;
   place-items: center;
