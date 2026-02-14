@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { SmileyIcon } from '@/vendor/phosphor/react';
+import { SmileyIcon, SmileySadIcon } from '@/vendor/phosphor/react';
 
 import type { VisitPhoto } from '@/core/domain/types';
 import { useLocationDetailsPage } from '@/features/locations/hooks/useLocationDetailsPage';
@@ -13,13 +13,17 @@ import styles from '@/app/visits/visits.module.css';
 const placeholderImage = (storagePath: string) =>
   `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#134e4a"/><stop offset="100%" stop-color="#0f172a"/></linearGradient></defs><rect width="400" height="240" fill="url(#bg)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="18" fill="white" font-family="Arial, sans-serif">${storagePath}</text></svg>`)}`;
 
-const getInitials = (name: string) =>
-  name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((word) => word[0]?.toUpperCase() ?? '')
-    .join('');
+const getVisitReaction = (thumb: 'up' | 'neutral' | 'down') => {
+  if (thumb === 'up') {
+    return <SmileyIcon weight="light" aria-hidden="true" />;
+  }
+
+  if (thumb === 'down') {
+    return <SmileySadIcon weight="light" aria-hidden="true" />;
+  }
+
+  return null;
+};
 
 export function LocationDetailsScreen() {
   const searchParams = useSearchParams();
@@ -99,24 +103,17 @@ export function LocationDetailsScreen() {
       <div className={styles.visitList}>
         {viewData.visits.map(({ visit, items, photos }, visitIndex) => (
           <article key={visit.id} className={styles.visitCard}>
-            <div className={styles.visitHeader}>
-              <div className={styles.visitAvatar}>{getInitials(restaurantName)}</div>
-              <div>
-                <h2 className={styles.visitTitle}>{restaurantName}</h2>
-                <p className={styles.visitHeaderMeta}>
-                  {visit.visitDate} · <SmileyIcon weight="light" aria-hidden="true" /> {visit.overallThumb}
-                </p>
-              </div>
-            </div>
+            <p className={styles.visitHeaderMeta}>
+              {visit.visitDate}
+              {getVisitReaction(visit.overallThumb)}
+            </p>
 
             <div className={styles.visitMeta}>
               {visit.notes ? <p>{visit.notes}</p> : null}
               {items.length ? (
                 <ul className={styles.itemList}>
                   {items.map((item) => (
-                    <li key={item.id}>
-                      {item.name} · <SmileyIcon weight="light" aria-hidden="true" /> {item.thumb}
-                    </li>
+                    <li key={item.id}>{item.name}</li>
                   ))}
                 </ul>
               ) : null}
