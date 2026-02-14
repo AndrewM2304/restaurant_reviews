@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { SmileyIcon } from '@/vendor/phosphor/react';
 
 import type { VisitPhoto } from '@/core/domain/types';
@@ -27,7 +27,6 @@ export function LocationDetailsScreen() {
   const { viewData } = useLocationDetailsPage(locationId);
   const [modalPhotos, setModalPhotos] = useState<VisitPhoto[]>([]);
   const [modalIndex, setModalIndex] = useState(0);
-  const [modalTouchStartX, setModalTouchStartX] = useState<number | null>(null);
   const fullscreenRailRef = useRef<HTMLDivElement | null>(null);
 
   const modalPhoto = modalPhotos[modalIndex];
@@ -53,16 +52,16 @@ export function LocationDetailsScreen() {
     rail.scrollTo({ left: rail.clientWidth * modalIndex, behavior: 'auto' });
   }, [modalIndex, modalPhoto]);
 
-  const cycle = (photos: VisitPhoto[], current: number, direction: 1 | -1) => {
-    if (!photos.length) return 0;
-    return (current + direction + photos.length) % photos.length;
-  };
-
   const openGallery = (photos: VisitPhoto[], index: number) => {
     if (!photos.length) return;
     setModalPhotos(photos);
     setModalIndex(index);
   };
+
+  const closeGallery = useCallback(() => {
+    setModalPhotos([]);
+    setModalIndex(0);
+  }, []);
 
   if (viewData.isLoading) {
     return <p>Loading location...</p>;
@@ -151,12 +150,12 @@ export function LocationDetailsScreen() {
       </div>
 
       {modalPhoto ? (
-        <div className={styles.fullscreenGallery} onClick={() => setModalPhotos([])}>
+        <div className={styles.fullscreenGallery} onClick={closeGallery}>
           <div className={styles.fullscreenGalleryInner} onClick={(event) => event.stopPropagation()}>
             <button
               type="button"
               className={styles.fullscreenCloseButton}
-              onClick={() => setModalPhotos([])}
+              onClick={closeGallery}
               aria-label="Close full screen gallery"
             >
               ×
@@ -171,15 +170,6 @@ export function LocationDetailsScreen() {
                 if (nextIndex !== modalIndex && nextIndex >= 0 && nextIndex < modalPhotos.length) {
                   setModalIndex(nextIndex);
                 }
-              }}
-              onTouchStart={(event) => setModalTouchStartX(event.changedTouches[0]?.clientX ?? null)}
-              onTouchEnd={(event) => {
-                if (modalTouchStartX === null) return;
-                const delta = (event.changedTouches[0]?.clientX ?? modalTouchStartX) - modalTouchStartX;
-                if (Math.abs(delta) > 30) {
-                  setModalIndex((current) => cycle(modalPhotos, current, delta < 0 ? 1 : -1));
-                }
-                setModalTouchStartX(null);
               }}
             >
               {modalPhotos.map((photo) => (
