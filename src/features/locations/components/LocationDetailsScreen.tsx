@@ -3,17 +3,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { SmileyIcon } from '@/vendor/phosphor/react';
 
 import type { VisitPhoto } from '@/core/domain/types';
 import { useLocationDetailsPage } from '@/features/locations/hooks/useLocationDetailsPage';
 import styles from '@/app/visits/visits.module.css';
-
-const ratingEmoji: Record<'up' | 'neutral' | 'down' | 'none', string> = {
-  up: '😊',
-  neutral: '😐',
-  down: '☹️',
-  none: '🙂',
-};
 
 const placeholderImage = (storagePath: string) =>
   `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#134e4a"/><stop offset="100%" stop-color="#0f172a"/></linearGradient></defs><rect width="400" height="240" fill="url(#bg)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="18" fill="white" font-family="Arial, sans-serif">${storagePath}</text></svg>`)}`;
@@ -81,15 +75,10 @@ export function LocationDetailsScreen() {
     <section className={styles.detailsPage}>
       <header className={styles.detailsTopNav}>
         <Link href="/" className={styles.topNavBackButton}>
-          ‹ Back
+          ‹
         </Link>
         <h1>{restaurantName}</h1>
-        <span className={styles.topNavSpacer} aria-hidden="true" />
       </header>
-
-      <p className={styles.totalVisits}>
-        {ratingEmoji[viewData.overallRating]} {viewData.visits.length} posts
-      </p>
 
       <div className={styles.visitList}>
         {viewData.visits.map(({ visit, items, photos }, visitIndex) => (
@@ -99,7 +88,7 @@ export function LocationDetailsScreen() {
               <div>
                 <h2 className={styles.visitTitle}>{restaurantName}</h2>
                 <p className={styles.visitHeaderMeta}>
-                  {visit.visitDate} · {ratingEmoji[visit.overallThumb]} {visit.overallThumb}
+                  {visit.visitDate} · <SmileyIcon weight="light" aria-hidden="true" /> {visit.overallThumb}
                 </p>
               </div>
             </div>
@@ -110,7 +99,7 @@ export function LocationDetailsScreen() {
                 <ul className={styles.itemList}>
                   {items.map((item) => (
                     <li key={item.id}>
-                      {item.name} · {ratingEmoji[item.thumb]}
+                      {item.name} · <SmileyIcon weight="light" aria-hidden="true" /> {item.thumb}
                     </li>
                   ))}
                 </ul>
