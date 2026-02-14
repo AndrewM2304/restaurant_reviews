@@ -66,13 +66,24 @@ export function LocationDetailsScreen() {
     );
   }
 
+  const restaurantName = viewData.restaurant?.name;
+
+  if (!restaurantName) {
+    return (
+      <section>
+        <p>{viewData.error || 'Location details unavailable.'}</p>
+        <Link href="/">Back to Home Screen</Link>
+      </section>
+    );
+  }
+
   return (
     <section className={styles.detailsPage}>
       <header className={styles.detailsTopNav}>
         <Link href="/" className={styles.topNavBackButton}>
           ‹ Back
         </Link>
-        <h1>{viewData.restaurant.name}</h1>
+        <h1>{restaurantName}</h1>
         <span className={styles.topNavSpacer} aria-hidden="true" />
       </header>
 
@@ -84,9 +95,9 @@ export function LocationDetailsScreen() {
         {viewData.visits.map(({ visit, items, photos }, visitIndex) => (
           <article key={visit.id} className={styles.visitCard}>
             <div className={styles.visitHeader}>
-              <div className={styles.visitAvatar}>{getInitials(viewData.restaurant.name)}</div>
+              <div className={styles.visitAvatar}>{getInitials(restaurantName)}</div>
               <div>
-                <h2 className={styles.visitTitle}>{viewData.restaurant.name}</h2>
+                <h2 className={styles.visitTitle}>{restaurantName}</h2>
                 <p className={styles.visitHeaderMeta}>
                   {visit.visitDate} · {ratingEmoji[visit.overallThumb]} {visit.overallThumb}
                 </p>
