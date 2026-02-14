@@ -570,7 +570,18 @@
   overflow-x: hidden;
 }
 
+.visitListMulti .visitCard {
+  --timeline-line-width: 3px;
+  --timeline-line-color: #111827;
+  --timeline-dot-size: 0.65rem;
+  --timeline-dot-offset: 0.95rem;
+}
+
 .visitCard {
+  --timeline-line-width: 2px;
+  --timeline-line-color: #d1d5db;
+  --timeline-dot-size: 0.7rem;
+  --timeline-dot-offset: 1rem;
   position: relative;
   background: #ffffff;
   border-radius: 0;
@@ -584,22 +595,21 @@
   content: '';
   position: absolute;
   left: 0.55rem;
-  top: 1rem;
-  width: 0.7rem;
-  height: 0.7rem;
+  top: var(--timeline-dot-offset);
+  width: var(--timeline-dot-size);
+  height: var(--timeline-dot-size);
   border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid #9ca3af;
+  background: var(--timeline-line-color);
 }
 
 .visitCard::after {
   content: '';
   position: absolute;
-  left: 0.87rem;
-  top: 1.75rem;
-  bottom: -0.55rem;
-  width: 2px;
-  background: #d1d5db;
+  left: calc(0.55rem + (var(--timeline-dot-size) / 2) - (var(--timeline-line-width) / 2));
+  top: calc(var(--timeline-dot-offset) + var(--timeline-dot-size));
+  bottom: calc(var(--timeline-dot-offset) * -1);
+  width: var(--timeline-line-width);
+  background: var(--timeline-line-color);
 }
 
 .visitCard:last-child::after {
@@ -608,6 +618,19 @@
 
 .visitHeaderMeta {
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.visitHeaderRatingIcon {
+  display: inline-flex;
+  line-height: 1;
+}
+
+.visitHeaderRatingIcon svg {
+  width: 16px;
+  height: 16px;
   color: #6b7280;
   font-size: 0.85rem;
   display: inline-flex;
@@ -637,9 +660,7 @@
 }
 
 .itemList li {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
+  display: list-item;
 }
 
 .itemList li svg {
