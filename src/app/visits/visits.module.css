@@ -717,6 +717,31 @@
 }
 
 
+
+.fullscreenPhotoRail {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.fullscreenPhotoRail::-webkit-scrollbar {
+  display: none;
+}
+
+.fullscreenPhotoSlide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  scroll-snap-align: start;
+}
+
 .fullscreenCloseButton {
   position: absolute;
   top: max(0.9rem, env(safe-area-inset-top));

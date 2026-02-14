@@ -9,7 +9,7 @@ export function AppNav() {
   const pathname = usePathname();
 
   return (
-    <nav style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+    <nav style={{ marginBottom: '1rem' }}>
       {tabs.map((tab) => {
         const active = pathname === tab.href || pathname.startsWith('/location');
         return (
