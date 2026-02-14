@@ -22,6 +22,10 @@ npm run dev
 - `/restaurants` (scaffold)
 - `/visits` (scaffold)
 
+## Deployment verification
+
+If GitHub Pages is configured to deploy from GitHub Actions, this section should appear on the live site after the workflow completes.
+
 ## Architecture notes
 
 - UI does not import persistence modules directly.
