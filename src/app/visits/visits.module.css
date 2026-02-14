@@ -525,8 +525,6 @@
   text-align: center;
 }
 
-}
-
 .visitCard + .visitCard {
   margin-top: 0.55rem;
   position: relative;
@@ -550,10 +548,10 @@
 
 .photoRail li + li {
   margin-left: 0.7rem;
-.photoPaginationOverlay > button + button {
-  margin-left: 0.45rem;
 }
 
+.photoPaginationOverlay > button + button {
+  margin-left: 0.45rem;
   cursor: pointer;
 }
 
