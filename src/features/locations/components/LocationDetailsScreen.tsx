@@ -4,10 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { SmileyIcon, SmileySadIcon } from '@/vendor/phosphor/react';
-
-import type { VisitPhoto } from '@/core/domain/types';
-import { useLocationDetailsPage } from '@/features/locations/hooks/useLocationDetailsPage';
+import { SmileyIcon, SmileyMehIcon, SmileySadIcon } from '@/vendor/phosphor/react';
+const getVisitReactionIcon = (thumb: 'up' | 'neutral' | 'down') => {
+  if (thumb === 'up') return <SmileyIcon weight="light" aria-label="happy rating" />;
+  if (thumb === 'down') return <SmileySadIcon weight="light" aria-label="sad rating" />;
+  return <SmileyMehIcon weight="light" aria-label="neutral rating" />;
 import styles from '@/app/visits/visits.module.css';
 
 const placeholderImage = (storagePath: string) =>
@@ -103,7 +104,9 @@ export function LocationDetailsScreen() {
       <div className={`${styles.visitList} ${viewData.visits.length > 1 ? styles.visitListMulti : ''}`}>
         {viewData.visits.map(({ visit, items, photos }, visitIndex) => (
           <article key={visit.id} className={styles.visitCard}>
-            <p className={styles.visitHeaderMeta}>
+              <p className={styles.visitHeaderRating}>
+                Rating: <span className={styles.visitHeaderRatingIcon}>{getVisitReactionIcon(visit.overallThumb)}</span>
+              </p>
               {visit.visitDate}
               {getVisitReaction(visit.overallThumb)}
             </p>

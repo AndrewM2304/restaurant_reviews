@@ -618,6 +618,19 @@
 
 .visitHeaderMeta {
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.visitHeaderRatingIcon {
+  display: inline-flex;
+  line-height: 1;
+}
+
+.visitHeaderRatingIcon svg {
+  width: 16px;
+  height: 16px;
   color: #6b7280;
   font-size: 0.85rem;
   display: inline-flex;
