@@ -13,7 +13,7 @@ export function LocationCards({ restaurants, emptyMessage, showStatus }: Locatio
   return (
     <div className={styles.cardGrid}>
       {restaurants.map((restaurant) => (
-        <Link key={restaurant.id} href={`/location#id=${restaurant.id}`} className={styles.locationCardLink}>
+        <Link key={restaurant.id} href={`/location?id=${restaurant.id}`} className={styles.locationCardLink}>
           <article className={styles.locationCard}>
             <h3>{restaurant.name}</h3>
             <p className={styles.meta}>
