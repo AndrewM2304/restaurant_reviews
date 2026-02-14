@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SmileyIcon } from '@/vendor/phosphor/react';
 
 import type { VisitPhoto } from '@/core/domain/types';
@@ -28,8 +28,30 @@ export function LocationDetailsScreen() {
   const [modalPhotos, setModalPhotos] = useState<VisitPhoto[]>([]);
   const [modalIndex, setModalIndex] = useState(0);
   const [modalTouchStartX, setModalTouchStartX] = useState<number | null>(null);
+  const fullscreenRailRef = useRef<HTMLDivElement | null>(null);
 
   const modalPhoto = modalPhotos[modalIndex];
+
+  useEffect(() => {
+    if (!modalPhoto) {
+      document.body.style.overflow = '';
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [modalPhoto]);
+
+  useEffect(() => {
+    if (!modalPhoto || !fullscreenRailRef.current) return;
+
+    const rail = fullscreenRailRef.current;
+    rail.scrollTo({ left: rail.clientWidth * modalIndex, behavior: 'auto' });
+  }, [modalIndex, modalPhoto]);
 
   const cycle = (photos: VisitPhoto[], current: number, direction: 1 | -1) => {
     if (!photos.length) return 0;
@@ -130,19 +152,7 @@ export function LocationDetailsScreen() {
 
       {modalPhoto ? (
         <div className={styles.fullscreenGallery} onClick={() => setModalPhotos([])}>
-          <div
-            className={styles.fullscreenGalleryInner}
-            onClick={(event) => event.stopPropagation()}
-            onTouchStart={(event) => setModalTouchStartX(event.changedTouches[0]?.clientX ?? null)}
-            onTouchEnd={(event) => {
-              if (modalTouchStartX === null) return;
-              const delta = (event.changedTouches[0]?.clientX ?? modalTouchStartX) - modalTouchStartX;
-              if (Math.abs(delta) > 30) {
-                setModalIndex((current) => cycle(modalPhotos, current, delta < 0 ? 1 : -1));
-              }
-              setModalTouchStartX(null);
-            }}
-          >
+          <div className={styles.fullscreenGalleryInner} onClick={(event) => event.stopPropagation()}>
             <button
               type="button"
               className={styles.fullscreenCloseButton}
@@ -151,14 +161,40 @@ export function LocationDetailsScreen() {
             >
               ×
             </button>
-            <Image
-              src={placeholderImage(modalPhoto.storagePath)}
-              alt={modalPhoto.storagePath}
-              className={styles.fullscreenPhoto}
-              width={980}
-              height={700}
-              unoptimized
-            />
+            <div
+              className={styles.fullscreenPhotoRail}
+              ref={fullscreenRailRef}
+              onScroll={(event) => {
+                const target = event.currentTarget;
+                if (!target.clientWidth) return;
+                const nextIndex = Math.round(target.scrollLeft / target.clientWidth);
+                if (nextIndex !== modalIndex && nextIndex >= 0 && nextIndex < modalPhotos.length) {
+                  setModalIndex(nextIndex);
+                }
+              }}
+              onTouchStart={(event) => setModalTouchStartX(event.changedTouches[0]?.clientX ?? null)}
+              onTouchEnd={(event) => {
+                if (modalTouchStartX === null) return;
+                const delta = (event.changedTouches[0]?.clientX ?? modalTouchStartX) - modalTouchStartX;
+                if (Math.abs(delta) > 30) {
+                  setModalIndex((current) => cycle(modalPhotos, current, delta < 0 ? 1 : -1));
+                }
+                setModalTouchStartX(null);
+              }}
+            >
+              {modalPhotos.map((photo) => (
+                <div key={photo.id} className={styles.fullscreenPhotoSlide}>
+                  <Image
+                    src={placeholderImage(photo.storagePath)}
+                    alt={photo.storagePath}
+                    className={styles.fullscreenPhoto}
+                    width={980}
+                    height={700}
+                    unoptimized
+                  />
+                </div>
+              ))}
+            </div>
             {modalPhotos.length > 1 ? (
               <div className={styles.photoPaginationOverlay}>
                 {modalPhotos.map((photo, index) => (
