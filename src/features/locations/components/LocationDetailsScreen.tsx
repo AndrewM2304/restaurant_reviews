@@ -143,6 +143,14 @@ export function LocationDetailsScreen() {
               setModalTouchStartX(null);
             }}
           >
+            <button
+              type="button"
+              className={styles.fullscreenCloseButton}
+              onClick={() => setModalPhotos([])}
+              aria-label="Close full screen gallery"
+            >
+              ×
+            </button>
             <Image
               src={placeholderImage(modalPhoto.storagePath)}
               alt={modalPhoto.storagePath}
