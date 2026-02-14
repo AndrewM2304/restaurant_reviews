@@ -511,8 +511,6 @@
 
 
 .detailsPage {
-  display: grid;
-  gap: 0.35rem;
   margin: -1rem -1rem 0;
   background: #ffffff;
   min-height: calc(100vh - 70px);
@@ -521,41 +519,41 @@
 .detailsTopNav {
   position: relative;
   z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 48px;
-  padding: 0 2.75rem;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.detailsTopNav h1 {
-  margin: 0;
-  max-width: 100%;
-  font-size: 1rem;
-  line-height: 1;
   text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 48px;
+  line-height: 2rem;
+  text-align: center;
 }
 
-.topNavBackButton {
+}
+
+.visitCard + .visitCard {
+  margin-top: 0.55rem;
+  position: relative;
+  min-height: 2.6rem;
+  padding-left: 3.05rem;
+}
+
+.visitHeader > div:last-child {
+  min-width: 0;
   position: absolute;
-  left: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #111827;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.35rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  line-height: 1;
+  top: 0;
+  left: 0;
+  line-height: 2.6rem;
+  text-align: center;
+
+  display: list-item;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.photoRail li + li {
+  margin-left: 0.7rem;
+.photoPaginationOverlay > button + button {
+  margin-left: 0.45rem;
+}
+
   cursor: pointer;
 }
 
