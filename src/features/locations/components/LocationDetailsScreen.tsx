@@ -100,7 +100,7 @@ export function LocationDetailsScreen() {
         <h1>{restaurantName}</h1>
       </header>
 
-      <div className={styles.visitList}>
+      <div className={`${styles.visitList} ${viewData.visits.length > 1 ? styles.visitListMulti : ''}`}>
         {viewData.visits.map(({ visit, items, photos }, visitIndex) => (
           <article key={visit.id} className={styles.visitCard}>
             <p className={styles.visitHeaderMeta}>
