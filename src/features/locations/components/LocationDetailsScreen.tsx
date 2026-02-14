@@ -4,27 +4,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+
+import type { VisitPhoto } from '@/core/domain/types';
+import { useLocationDetailsPage } from '@/features/locations/hooks/useLocationDetailsPage';
+import styles from '@/app/visits/visits.module.css';
 import { SmileyIcon, SmileyMehIcon, SmileySadIcon } from '@/vendor/phosphor/react';
+
 const getVisitReactionIcon = (thumb: 'up' | 'neutral' | 'down') => {
   if (thumb === 'up') return <SmileyIcon weight="light" aria-label="happy rating" />;
   if (thumb === 'down') return <SmileySadIcon weight="light" aria-label="sad rating" />;
   return <SmileyMehIcon weight="light" aria-label="neutral rating" />;
-import styles from '@/app/visits/visits.module.css';
+};
 
 const placeholderImage = (storagePath: string) =>
   `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#134e4a"/><stop offset="100%" stop-color="#0f172a"/></linearGradient></defs><rect width="400" height="240" fill="url(#bg)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="18" fill="white" font-family="Arial, sans-serif">${storagePath}</text></svg>`)}`;
-
-const getVisitReaction = (thumb: 'up' | 'neutral' | 'down') => {
-  if (thumb === 'up') {
-    return <SmileyIcon weight="light" aria-hidden="true" />;
-  }
-
-  if (thumb === 'down') {
-    return <SmileySadIcon weight="light" aria-hidden="true" />;
-  }
-
-  return null;
-};
 
 export function LocationDetailsScreen() {
   const searchParams = useSearchParams();
@@ -81,7 +74,7 @@ export function LocationDetailsScreen() {
     );
   }
 
-  const restaurantName = viewData.restaurant?.name;
+  const restaurantName = viewData.restaurant.name;
 
   if (!restaurantName) {
     return (
@@ -104,11 +97,9 @@ export function LocationDetailsScreen() {
       <div className={`${styles.visitList} ${viewData.visits.length > 1 ? styles.visitListMulti : ''}`}>
         {viewData.visits.map(({ visit, items, photos }, visitIndex) => (
           <article key={visit.id} className={styles.visitCard}>
-              <p className={styles.visitHeaderRating}>
-                Rating: <span className={styles.visitHeaderRatingIcon}>{getVisitReactionIcon(visit.overallThumb)}</span>
-              </p>
+            <p className={styles.visitHeaderMeta}>
               {visit.visitDate}
-              {getVisitReaction(visit.overallThumb)}
+              <span className={styles.visitHeaderRatingIcon}>{getVisitReactionIcon(visit.overallThumb)}</span>
             </p>
 
             <div className={styles.visitMeta}>
