@@ -97,10 +97,12 @@ export function LocationDetailsScreen() {
       <div className={`${styles.visitList} ${viewData.visits.length > 1 ? styles.visitListMulti : ''}`}>
         {viewData.visits.map(({ visit, items, photos }, visitIndex) => (
           <article key={visit.id} className={styles.visitCard}>
-            <p className={styles.visitHeaderMeta}>
-              {visit.visitDate}
-              <span className={styles.visitHeaderRatingIcon}>{getVisitReactionIcon(visit.overallThumb)}</span>
-            </p>
+            <div className={styles.visitHeaderMeta}>
+              <p className={styles.visitHeaderDate}>{visit.visitDate}</p>
+              <p className={styles.visitHeaderRatingRow}>
+                <span className={styles.visitHeaderRatingIcon}>{getVisitReactionIcon(visit.overallThumb)}</span>
+              </p>
+            </div>
 
             <div className={styles.visitMeta}>
               {visit.notes ? <p>{visit.notes}</p> : null}
